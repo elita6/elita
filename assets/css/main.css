@@ -1450,6 +1450,7 @@ section,
 # Starter Section Section
 --------------------------------------------------------------*/
 .starter-section {
+<<<<<<< HEAD
   
 }
 
@@ -1589,6 +1590,12 @@ section,
 
 /* Add your styles here */
 
+=======
+  /* Add your styles here */
+}
+
+
+>>>>>>> e80fdac1e7a1ead2aa95a6711d7662328967d9fe
 /* 1. Portfolio ±ÍÃ‚æ”÷– */
 #portfolio .section-title h2 {
   text-align: center;
