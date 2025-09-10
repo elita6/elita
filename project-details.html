@@ -359,6 +359,7 @@
       const tapMoveThreshold = 10;
       const tapTimeThreshold = 250;
 
+      // 轻点退出（只限图片区域）
       if (Math.abs(dx) < tapMoveThreshold && Math.abs(dy) < tapMoveThreshold && dt < tapTimeThreshold) {
         if (viewer.style.display === 'flex') {
           closeFullscreen();
@@ -366,6 +367,7 @@
         }
       }
 
+      // 滑动切换（左右滑动）
       if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > swipeThreshold) {
         if (dx > 0) {
           showPrevImage();
