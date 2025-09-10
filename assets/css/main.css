@@ -1576,6 +1576,8 @@ section,
   }
 }
 
+
+/* 图片居中 */
 .property-details .property-gallery {
   display: flex;
   flex-direction: column;
@@ -1583,8 +1585,7 @@ section,
   justify-content: center;
   text-align: center;
   margin: 0 auto;
-} /* new add:图片居中* /
-
+}
 
 /* 主图容器和图片自适应 */
 .main-image-container {
@@ -1636,6 +1637,11 @@ section,
     width: 100% !important;
     height: auto !important;
   }
+
+  /* 手机端：隐藏箭头，使用手势控制 */
+  .fullscreen-desktop-controls {
+    display: none !important;
+  }
 }
 
 /* 点击放大图片 */
@@ -1650,19 +1656,33 @@ section,
   justify-content: center;
   align-items: center;
   z-index: 9999;
+  overflow: hidden;
 }
 
 .fullscreen-viewer img {
   max-width: 100%;
   max-height: 100%;
-  touch-action: pinch-zoom;
+  touch-action: pan-y pinch-zoom;
+  transition: transform 0.2s ease;
+  cursor: pointer;
 }
 
-/* 电脑放大图片 */
-.fullscreen-nav-btn {
+/* 电脑端控制按钮区域 */
+.fullscreen-desktop-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   position: absolute;
+  width: 100%;
   top: 50%;
   transform: translateY(-50%);
+  padding: 0 1rem;
+  pointer-events: none;
+}
+
+/* 左右箭头按钮 */
+.fullscreen-nav-btn {
+  pointer-events: auto;
   background: rgba(255,255,255,0.2);
   border: none;
   color: white;
@@ -1670,14 +1690,6 @@ section,
   padding: 0.5rem 1rem;
   cursor: pointer;
   z-index: 10000;
-}
-
-.fullscreen-nav-btn.prev {
-  left: 1rem;
-}
-
-.fullscreen-nav-btn.next {
-  right: 1rem;
 }
 
 
