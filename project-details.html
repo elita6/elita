@@ -92,8 +92,14 @@
 
             <!-- Property Gallery -->
             <div class="property-gallery" data-aos="fade-up" data-aos-delay="200">
-              <div class="main-image-container image-zoom-container">
-                <img id="main-product-image" src="assets/img/slides/slide1.PNG" alt="Property Exterior" class="img-fluid main-property-image" data-zoom="assets/img/slides/slide1.PNG">
+              <div class="main-image-container">
+                <img
+                  id="main-product-image"
+                  src="assets/img/slides/slide1.PNG"
+                  alt="slide1"
+                  class="img-fluid main-property-image"
+                  onclick="openFullscreen(this.src)"
+                >
                 <div class="image-nav-buttons">
                   <button class="image-nav-btn prev-image" type="button">
                     <i class="bi bi-chevron-left"></i>
@@ -103,6 +109,7 @@
                   </button>
                 </div>
               </div>
+            </div>
 
               <div class="thumbnail-gallery thumbnail-list">
                 <div class="thumbnail-item active" data-image="assets/img/slides/slide1.PNG">
@@ -306,6 +313,89 @@
     });
 </script>
 
+
+<!-- Project picture-->
+ <script>
+  function openFullscreen(src) {
+    const viewer = document.getElementById('fullscreen-viewer');
+    const image = document.getElementById('fullscreen-image');
+    image.src = src;
+    viewer.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeFullscreen() {
+    const viewer = document.getElementById('fullscreen-viewer');
+    viewer.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+</script>
+
+<script>
+  let currentIndex = 0;
+  const imageList = Array.from(document.querySelectorAll(".thumbnail-item")).map(item =>
+    item.getAttribute("data-image")
+  );
+
+  function openFullscreen(src) {
+    currentIndex = imageList.indexOf(src);
+    const viewer = document.getElementById('fullscreen-viewer');
+    const image = document.getElementById('fullscreen-image');
+    image.src = src;
+    image.style.transform = "scale(1)";
+    viewer.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeFullscreen() {
+    const viewer = document.getElementById('fullscreen-viewer');
+    viewer.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function showPrevImage() {
+    currentIndex = (currentIndex - 1 + imageList.length) % imageList.length;
+    updateFullscreenImage();
+  }
+
+  function showNextImage() {
+    currentIndex = (currentIndex + 1) % imageList.length;
+    updateFullscreenImage();
+  }
+
+  function updateFullscreenImage() {
+    const image = document.getElementById('fullscreen-image');
+    image.src = imageList[currentIndex];
+    image.style.transform = "scale(1)";
+  }
+
+  // 鼠标滚轮缩放（电脑端）
+  document.addEventListener("wheel", function(e) {
+    const viewer = document.getElementById('fullscreen-viewer');
+    const image = document.getElementById('fullscreen-image');
+    if (viewer.style.display === 'flex') {
+      e.preventDefault();
+      let scale = parseFloat(image.style.transform.replace("scale(", "").replace(")", "")) || 1;
+      scale += e.deltaY < 0 ? 0.1 : -0.1;
+      scale = Math.max(0.5, Math.min(scale, 3));
+      image.style.transform = `scale(${scale})`;
+    }
+  }, { passive: false });
+
+  // 给主图添加点击事件
+  document.getElementById("main-product-image").addEventListener("click", function () {
+    openFullscreen(this.src);
+  });
+</script>
+
+<!-- 全屏预览容器 -->
+<div id="fullscreen-viewer" class="fullscreen-viewer" onclick="closeFullscreen()" style="display: none;">
+  <button class="fullscreen-nav-btn prev" onclick="event.stopPropagation(); showPrevImage();">←</button>
+  <img id="fullscreen-image" src="" alt="预览图片">
+  <button class="fullscreen-nav-btn next" onclick="event.stopPropagation(); showNextImage();">→</button>
+</div>
+
 </body>
+</html>
 
 </html>
