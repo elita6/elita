@@ -40,7 +40,7 @@
   <header id="header" class="header d-flex align-items-center sticky-top">
     <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
-      <a class="logo d-flex align-items-center me-auto me-xl-0">
+      <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/img/logo.webp" alt=""> -->
         <h1 class="sitename">Elita</h1>
@@ -48,8 +48,8 @@
 
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="index.html" class="active">Home</a></li>
-          <li><a href="index.html#portfolio">Portfolio</a></li>
+          <li><a href="#hero" class="active">Home</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
@@ -342,14 +342,14 @@
     // 移动端：滑动切换 + 轻点退出
     let touchStartX = 0, touchStartY = 0, touchStartTime = 0;
 
-    fullscreenImage.addEventListener("touchstart", function (e) {
+    viewer.addEventListener("touchstart", function (e) {
       const t = e.changedTouches[0];
       touchStartX = t.screenX;
       touchStartY = t.screenY;
       touchStartTime = Date.now();
     }, { passive: true });
 
-    fullscreenImage.addEventListener("touchend", function (e) {
+    viewer.addEventListener("touchend", function (e) {
       const t = e.changedTouches[0];
       const dx = t.screenX - touchStartX;
       const dy = t.screenY - touchStartY;
@@ -359,7 +359,7 @@
       const tapMoveThreshold = 10;
       const tapTimeThreshold = 250;
 
-      // 轻点退出（只限图片区域）
+      // 轻点退出（全屏任意位置）
       if (Math.abs(dx) < tapMoveThreshold && Math.abs(dy) < tapMoveThreshold && dt < tapTimeThreshold) {
         if (viewer.style.display === 'flex') {
           closeFullscreen();
@@ -367,8 +367,9 @@
         }
       }
 
-      // 滑动切换（左右滑动）
-      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > swipeThreshold) {
+      // 滑动切换（仅限图片区域）
+      const touchedElement = document.elementFromPoint(t.screenX, t.screenY);
+      if (touchedElement === fullscreenImage && Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > swipeThreshold) {
         if (dx > 0) {
           showPrevImage();
         } else {
