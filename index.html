@@ -37,33 +37,35 @@
 
 <body class="index-page font-en"> <!-- 默认英文字体类 -->
 
-  <!-- ✅ 语言切换按钮（放在 header 内） -->
-    <header class="header d-flex align-items-center sticky-top">
+  <!-- ✅ 导航 -->
+  <header class="header d-flex align-items-center sticky-top">
     <div class="header-container container-fluid container-xl d-flex align-items-center justify-content-between">
 
-        <!-- 左侧 Logo + LinkedIn -->
-        <div class="logo d-flex align-items-center">
+      <!-- 左侧 Logo + LinkedIn -->
+      <div class="logo d-flex align-items-center">
         <a href="index.html" class="d-flex align-items-center">
-            <h1 class="sitename me-2">Elita</h1>
+          <h1 class="sitename me-2">Elita</h1>
         </a>
         <a href="https://www.linkedin.com/in/elita-zheng-profile" class="linkedin" target="_blank" rel="noopener">
-            <i class="bi bi-linkedin"></i>
+          <i class="bi bi-linkedin"></i>
         </a>
-        </div>
+      </div>
 
-        <!-- 中间导航菜单 -->
-        <nav id="navmenu" class="navmenu">
+      <!-- 中间导航菜单（含汉堡按钮） -->
+      <nav id="navmenu" class="navmenu">
         <ul>
-            <li><a href="#hero" class="active" data-i18n="nav.home">Home</a></li>
-            <li><a href="#portfolio" data-i18n="nav.portfolio">Portfolio</a></li>
+          <li><a href="index.html" class="active" data-i18n="nav.home">Home</a></li>
+          <li><a href="index.html#portfolio" data-i18n="nav.portfolio">Portfolio</a></li>
         </ul>
-        </nav>
+        <!-- 汉堡按钮：移动端显示 -->
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
 
-       <!-- ✅ 切换语言按钮 -->
-       <button id="lang-toggle" type="button" class="btn btn-sm btn-outline-secondary ms-3" aria-label="切换语言">中文</button>
+      <!-- 右侧语言切换按钮 -->
+      <button id="lang-toggle" type="button" class="btn btn-sm btn-outline-secondary ms-3" aria-label="切换语言">中文</button>
 
     </div>
-    </header>
+  </header>
 
   <main class="main">
 
@@ -304,129 +306,128 @@
   <!-- footer JS File-->
   <script>document.getElementById("current-year").textContent = new Date().getFullYear();</script>
 
+  <!-- Language dic -->
+  <script>
+    const I18N = {
+      en: {
+        "nav.home": "Home",
+        "nav.portfolio": "Portfolio",
+        "hero.name": "Elita Zheng",
+        "hero.title": "Business Analyst, Automation Enthusiast",
+        "hero.cta": "View My Work",
+        "hero.experience": "Years Experience",
+        "hero.projects": "Projects Involved",
+        "hero.reports": "Reports Completed",
+        "hero.image": "Portfolio Hero Image",
+        "section.portfolio": "Portfolio",
+        "filter.all": "All Work",
+        "filter.report": "Report",
+        "filter.project": "Project",
+        "filter.viz": "Data Visualization",
+        "filter.article": "Article",
+        "badge.report": "Report",
+        "badge.project": "Project",
+        "badge.viz": "Data Visualization",
+        "badge.article": "Article",
+        "project.consumption.title": "Comsumption Analysis",
+        "project.consumption.desc": "Bubble Tea, Coffee, Snack Shops, and Prepared Dishes Industry Analysis",
+        "project.milk.title": "Online Baby Milk Analysis",
+        "project.milk.desc": "Personal project for cabability improving",
+        "project.sales.title": "Sales Dashbord",
+        "project.sales.desc": "Storytelling created by PowerBI",
+        "project.livestream.title": "Livestream Focus",
+        "project.livestream.desc": "Previous work example",
+        "project.ecommerce.title": "E-commerce Analysis",
+        "project.ecommerce.desc": "Previous work example",
+        "project.xhs.title": "Xiaohongshu User Analysis",
+        "project.xhs.desc": "Personal project for cabability improving",
+        "footer.rights": "All rights reserved.",
+        "footer.credit": "Designed by"
+      },
+      zh: {
+        "nav.home": "首页",
+        "nav.portfolio": "作品集",
+        "hero.name": "Elita Zheng",
+        "hero.title": "商业分析师，自动化爱好者",
+        "hero.cta": "查看我的作品",
+        "hero.experience": "年行业经验",
+        "hero.projects": "参与项目",
+        "hero.reports": "完成报告",
+        "hero.image": "作品集主图",
+        "section.portfolio": "作品集",
+        "filter.all": "全部作品",
+        "filter.report": "报告",
+        "filter.project": "项目",
+        "filter.viz": "数据可视化",
+        "filter.article": "文章",
+        "badge.report": "报告",
+        "badge.project": "项目",
+        "badge.viz": "数据可视化",
+        "badge.article": "文章",
+        "project.consumption.title": "消费行业分析",
+        "project.consumption.desc": "奶茶、咖啡、量贩零食店与预制菜行业分析",
+        "project.milk.title": "线上奶粉分析",
+        "project.milk.desc": "用于能力提升的个人项目",
+        "project.sales.title": "销售数据看板",
+        "project.sales.desc": "由 PowerBI 制作的故事化展示",
+        "project.livestream.title": "直播行业聚焦",
+        "project.livestream.desc": "过往工作成果示例",
+        "project.ecommerce.title": "电商行业分析",
+        "project.ecommerce.desc": "过往工作成果示例",
+        "project.xhs.title": "小红书用户分析",
+        "project.xhs.desc": "用于能力提升的个人项目",
+        "footer.rights": "版权所有。",
+        "footer.credit": "设计来源："
+      }
+    };
+  </script>
 
-</body>
-<!-- Language dic -->
-<script>
-  const I18N = {
-    en: {
-      "nav.home": "Home",
-      "nav.portfolio": "Portfolio",
-      "hero.name": "Elita Zheng",
-      "hero.title": "Business Analyst, Automation Enthusiast",
-      "hero.cta": "View My Work",
-      "hero.experience": "Years Experience",
-      "hero.projects": "Projects Involved",
-      "hero.reports": "Reports Completed",
-      "hero.image": "Portfolio Hero Image",
-      "section.portfolio": "Portfolio",
-      "filter.all": "All Work",
-      "filter.report": "Report",
-      "filter.project": "Project",
-      "filter.viz": "Data Visualization",
-      "filter.article": "Article",
-      "badge.report": "Report",
-      "badge.project": "Project",
-      "badge.viz": "Data Visualization",
-      "badge.article": "Article",
-      "project.consumption.title": "Comsumption Analysis",
-      "project.consumption.desc": "Bubble Tea, Coffee, Snack Shops, and Prepared Dishes Industry Analysis",
-      "project.milk.title": "Online Baby Milk Analysis",
-      "project.milk.desc": "Personal project for cabability improving",
-      "project.sales.title": "Sales Dashbord",
-      "project.sales.desc": "Storytelling created by PowerBI",
-      "project.livestream.title": "Livestream Focus",
-      "project.livestream.desc": "Previous work example",
-      "project.ecommerce.title": "E-commerce Analysis",
-      "project.ecommerce.desc": "Previous work example",
-      "project.xhs.title": "Xiaohongshu User Analysis",
-      "project.xhs.desc": "Personal project for cabability improving",
-      "footer.rights": "All rights reserved.",
-      "footer.credit": "Designed by"
-    },
-    zh: {
-      "nav.home": "首页",
-      "nav.portfolio": "作品集",
-      "hero.name": "Elita Zheng",
-      "hero.title": "商业分析师，自动化爱好者",
-      "hero.cta": "查看我的作品",
-      "hero.experience": "年行业经验",
-      "hero.projects": "参与项目",
-      "hero.reports": "完成报告",
-      "hero.image": "作品集主图",
-      "section.portfolio": "作品集",
-      "filter.all": "全部作品",
-      "filter.report": "报告",
-      "filter.project": "项目",
-      "filter.viz": "数据可视化",
-      "filter.article": "文章",
-      "badge.report": "报告",
-      "badge.project": "项目",
-      "badge.viz": "数据可视化",
-      "badge.article": "文章",
-      "project.consumption.title": "消费行业分析",
-      "project.consumption.desc": "奶茶、咖啡、零食门店与预制菜行业分析",
-      "project.milk.title": "线上奶粉分析",
-      "project.milk.desc": "用于能力提升的个人项目",
-      "project.sales.title": "销售数据看板",
-      "project.sales.desc": "由 PowerBI 制作的故事化展示",
-      "project.livestream.title": "直播行业聚焦",
-      "project.livestream.desc": "过往项目示例",
-      "project.ecommerce.title": "电商行业分析",
-      "project.ecommerce.desc": "过往项目示例",
-      "project.xhs.title": "小红书用户分析",
-      "project.xhs.desc": "用于能力提升的个人项目",
-      "footer.rights": "版权所有。",
-      "footer.credit": "设计来源："
-    }
-  };
-</script>
+  <!-- language switch function-->
+  <script>
+    (function () {
+      let currentLang = "en";
 
-<!-- language switch function-->
-<script>
-  (function () {
-    let currentLang = "en";
+      function applyI18n(lang) {
+        const dict = I18N[lang];
+        if (!dict) return;
 
-    function applyI18n(lang) {
-      const dict = I18N[lang];
-      if (!dict) return;
+        document.documentElement.setAttribute("lang", lang);
+        document.body.classList.remove("font-en", "font-zh");
+        document.body.classList.add(lang === "en" ? "font-en" : "font-zh");
 
-      document.documentElement.setAttribute("lang", lang);
-      document.body.classList.remove("font-en", "font-zh");
-      document.body.classList.add(lang === "en" ? "font-en" : "font-zh");
+        document.querySelectorAll("[data-i18n]").forEach(el => {
+          const key = el.getAttribute("data-i18n");
+          const attr = el.getAttribute("data-i18n-attr");
+          const val = dict[key];
+          if (!val) return;
 
-      document.querySelectorAll("[data-i18n]").forEach(el => {
-        const key = el.getAttribute("data-i18n");
-        const attr = el.getAttribute("data-i18n-attr");
-        const val = dict[key];
-        if (!val) return;
+          if (attr) {
+            el.setAttribute(attr, val);
+          } else {
+            el.textContent = val;
+          }
+        });
 
-        if (attr) {
-          el.setAttribute(attr, val);
-        } else {
-          el.textContent = val;
+        const toggleBtn = document.getElementById("lang-toggle");
+        if (toggleBtn) {
+          toggleBtn.textContent = lang === "en" ? "中文" : "English";
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        applyI18n(currentLang);
+
+        const toggleBtn = document.getElementById("lang-toggle");
+        if (toggleBtn) {
+          toggleBtn.addEventListener("click", () => {
+            currentLang = currentLang === "en" ? "zh" : "en";
+            applyI18n(currentLang);
+          });
         }
       });
+    })();
+  </script>  
 
-      const toggleBtn = document.getElementById("lang-toggle");
-      if (toggleBtn) {
-        toggleBtn.textContent = lang === "en" ? "中文" : "English";
-      }
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      applyI18n(currentLang);
-
-      const toggleBtn = document.getElementById("lang-toggle");
-      if (toggleBtn) {
-        toggleBtn.addEventListener("click", () => {
-          currentLang = currentLang === "en" ? "zh" : "en";
-          applyI18n(currentLang);
-        });
-      }
-    });
-  })();
-</script>
-
+</body>
 
 </html>

@@ -1457,3 +1457,23 @@ section,
 }
 
 
+/* 报告说明段落排版优化 */
+.report-summary {
+  text-align: justify;          /* 两端对齐 */
+  text-justify: inter-word;     /* 单词间距调整 */
+  line-height: 1.8;             /* 行高 */
+  font-size: 1rem;              /* 字号 */
+  letter-spacing: 0.3px;        /* 字间距微调 */
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* 移动端优化：稍微加大行高，便于阅读 */
+@media (max-width: 768px) {
+  .report-summary {
+    line-height: 1.9;
+    font-size: 0.95rem;
+  }
+}
+
+

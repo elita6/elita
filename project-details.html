@@ -37,33 +37,35 @@
 
 <body class="index-page font-en"> <!-- 默认英文字体类 -->
 
-  <!-- ✅ 语言切换按钮（放在 header 内） -->
-    <header class="header d-flex align-items-center sticky-top">
+  <!-- ✅ 导航 -->
+  <header class="header d-flex align-items-center sticky-top">
     <div class="header-container container-fluid container-xl d-flex align-items-center justify-content-between">
 
-        <!-- 左侧 Logo + LinkedIn -->
-        <div class="logo d-flex align-items-center">
+      <!-- 左侧 Logo + LinkedIn -->
+      <div class="logo d-flex align-items-center">
         <a href="index.html" class="d-flex align-items-center">
-            <h1 class="sitename me-2">Elita</h1>
+          <h1 class="sitename me-2">Elita</h1>
         </a>
         <a href="https://www.linkedin.com/in/elita-zheng-profile" class="linkedin" target="_blank" rel="noopener">
-            <i class="bi bi-linkedin"></i>
+          <i class="bi bi-linkedin"></i>
         </a>
-        </div>
+      </div>
 
-        <!-- 中间导航菜单 -->
-        <nav id="navmenu" class="navmenu">
+      <!-- 中间导航菜单（含汉堡按钮） -->
+      <nav id="navmenu" class="navmenu">
         <ul>
-            <li><a href="index.html" class="active" data-i18n="nav.home">Home</a></li>
-            <li><a href="index.html#portfolio" data-i18n="nav.portfolio">Portfolio</a></li>
+          <li><a href="index.html" class="active" data-i18n="nav.home">Home</a></li>
+          <li><a href="index.html#portfolio" data-i18n="nav.portfolio">Portfolio</a></li>
         </ul>
-        </nav>
+        <!-- 汉堡按钮：移动端显示 -->
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
 
-       <!-- ✅ 切换语言按钮 -->
-       <button id="lang-toggle" type="button" class="btn btn-sm btn-outline-secondary ms-3" aria-label="切换语言">中文</button>
+      <!-- 右侧语言切换按钮 -->
+      <button id="lang-toggle" type="button" class="btn btn-sm btn-outline-secondary ms-3" aria-label="切换语言">中文</button>
 
     </div>
-    </header>
+  </header>
 
   <main class="main">
 
@@ -74,9 +76,8 @@
           <div class="row d-flex justify-content-center text-center">
             <div class="col-lg-8">
               <h1 class="heading-title" data-i18n="report.title">Report Description</h1>
-              <p class="mb-0" data-i18n="report.summary">
-                An overview of developments in China’s consumer industry in 2023: freshly prepared tea and coffee, value-oriented snack chains, and the ready-to-cook/prepared food market.
-                Multiple dimensions including market size, industry characteristics, consumer demographics, competitive landscape, category trends, and financing dynamics.
+              <p class="mb-0 report-summary" data-i18n="report.summary">
+                An overview of developments in China’s consumer industry in 2023: multiple dimensions including market size, industry characteristics, consumer demographics, competitive landscape, category trends, and financing dynamics.
                 The following section presents an excerpt from the report.
               </p>
             </div>
@@ -252,6 +253,26 @@
   </div>
   </footer>
 
+
+  <!-- 全屏预览容器 -->
+  <div id="fullscreen-viewer" class="fullscreen-viewer" style="display: none;">
+
+    <!-- 左侧箭头区域 -->
+    <div id="arrow-left" class="arrow-zone">
+      <button id="prev-btn" class="fullscreen-nav-btn">←</button>
+    </div>
+
+    <!-- 全屏图片 -->
+    <img id="fullscreen-image" src="" alt="Fullscreen Image">
+
+    <!-- 右侧箭头区域 -->
+    <div id="arrow-right" class="arrow-zone">
+      <button id="next-btn" class="fullscreen-nav-btn">→</button>
+    </div>
+
+  </div>
+
+
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
@@ -269,6 +290,10 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <!-- footer JS File-->
+  <script>document.getElementById("current-year").textContent = new Date().getFullYear();</script>
+
 
 
 <!-- Project details + fullscreen viewer -->
@@ -526,23 +551,6 @@
 </script>
 
 
-<!-- 全屏预览容器 -->
-<div id="fullscreen-viewer" class="fullscreen-viewer" style="display: none;">
-  <img id="fullscreen-image" src="" alt="预览图片">
-
-  <!-- 左箭头容器 -->
-  <div id="arrow-left" class="arrow-zone">
-    <button id="prev-btn" class="fullscreen-nav-btn prev">←</button>
-  </div>
-
-  <!-- 右箭头容器 -->
-  <div id="arrow-right" class="arrow-zone">
-    <button id="next-btn" class="fullscreen-nav-btn next">→</button>
-  </div>
-
-  <!-- 页码提示 -->
-  <div id="image-index-indicator" class="image-index-indicator"></div>
-</div>
 
 <!-- Language dic -->
 <script>
@@ -558,7 +566,9 @@
       "hero.reports": "Reports Completed",
       "hero.image": "Portfolio Hero Image",
       "report.title": "Report Description",
-      "report.summary": "An overview of developments in China’s consumer industry in 2023: freshly prepared tea and coffee, value-oriented snack chains, and the ready-to-cook/prepared food market. Multiple dimensions including market size, industry characteristics, consumer demographics, competitive landscape, category trends, and financing dynamics. The following section presents an excerpt from the report."
+      "report.summary": "An overview of developments in China’s consumer industry in 2023: freshly prepared tea and coffee, value-oriented snack chains, and the ready-to-cook/prepared food market. Multiple dimensions including market size, industry characteristics, consumer demographics, competitive landscape, category trends, and financing dynamics. The following section presents an excerpt from the report.",
+      "footer.rights": "All rights reserved.",
+      "footer.credit": "Designed by"
     },
     zh: {
       "nav.home": "首页",
@@ -622,7 +632,9 @@
       }
     });
   })();
-</script>
+</script>  
+
+
 
 
 </body>
