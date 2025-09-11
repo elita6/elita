@@ -1446,75 +1446,14 @@ section,
 
 /* Add your styles here */
 
-/* 1. Portfolio 标题居中 */
-#portfolio .section-title h2 {
-  text-align: center;
-}
-
-/* 2. 橙底白字标签（两端圆角，长度自适应文字） */
-.section-title-tag {
-  display: inline-block;
-  padding: 6px 14px;
-  border-radius: 20px; /* 两端圆角 */
-  font-weight: bold;
-  font-size: 1rem;
-  color: black; /* 默认黑字 */
-  background-color: transparent; /* 默认无底色 */
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.section-title-tag.active {
-  background-color: orange;
-  color: white;
-}
-
-
-/* 3. 列表样式：圆点 + 浅橙色细线不断开 */
-.custom-list {
+/* 居中导航菜单 */
+.navmenu ul {
+  display: flex;
+  justify-content: center;
+  gap: 2rem; /* 可根据间距调整 */
   list-style: none;
-  padding-left: 0;
+  padding: 0;
   margin: 0;
-  position: relative;
-}
-
-/* 整体竖线 */
-.custom-list::before {
-  content: "";
-  position: absolute;
-  left: 3.5px; /* 圆点中心对齐 */
-  top: 6px;    /* 从第一个圆点开始 */
-  bottom: 0;   /* 一直到底部 */
-  width: 1px;
-  background-color: #f9c27b; /* 浅橙色 */
-}
-
-.custom-list li {
-  position: relative;
-  padding-left: 20px;
-  margin-bottom: 15px;
-  font-size: 0.9rem;
-}
-
-/* 圆点 */
-.custom-list li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 6px;
-  width: 8px;
-  height: 8px;
-  background-color: orange;
-  border-radius: 50%;
-}
-
-/* 链接文字黑色 */
-.custom-list a {
-  color: black;
-  text-decoration: none;
-}
-.custom-list a:hover {
-  text-decoration: underline;
 }
 
 
