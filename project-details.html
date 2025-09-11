@@ -48,8 +48,8 @@
 
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="#hero" class="active">Home</a></li>
-          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="index.html#portfolio">Portfolio</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
@@ -279,14 +279,45 @@
 <!-- Project details + fullscreen viewer -->
 <script>
   document.addEventListener("DOMContentLoaded", function () {
+    // -------------------------------
+    // ✅ 通用逻辑（所有设备共用）
+    // -------------------------------
+
+    // 初始化元素
     const thumbnails = Array.from(document.querySelectorAll(".thumbnail-item"));
     const mainImage = document.getElementById("main-product-image");
     const fullscreenImage = document.getElementById("fullscreen-image");
     const viewer = document.getElementById("fullscreen-viewer");
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
+    const leftZone = document.getElementById("arrow-left");
+    const rightZone = document.getElementById("arrow-right");
 
+    // 创建页码提示
+    let indicator = document.getElementById("image-index-indicator");
+    if (!indicator) {
+      indicator = document.createElement("div");
+      indicator.id = "image-index-indicator";
+      indicator.className = "image-index-indicator";
+      indicator.style.position = "absolute";
+      indicator.style.bottom = "1rem";
+      indicator.style.left = "50%";
+      indicator.style.transform = "translateX(-50%)";
+      indicator.style.color = "#fff";
+      indicator.style.fontSize = "0.9rem";
+      indicator.style.background = "rgba(0,0,0,0.5)";
+      indicator.style.padding = "0.3rem 0.6rem";
+      indicator.style.borderRadius = "6px";
+      indicator.style.pointerEvents = "none";
+      viewer.appendChild(indicator);
+    }
+
+    // 当前图片索引与列表
     let currentIndex = thumbnails.findIndex(item => item.classList.contains("active"));
+    if (currentIndex < 0) currentIndex = 0;
     const imageList = thumbnails.map(item => item.getAttribute("data-image"));
 
+    // 更新主图（非全屏）
     function updateMainImage(index) {
       const target = thumbnails[index];
       const newSrc = target.getAttribute("data-image");
@@ -301,6 +332,7 @@
       currentIndex = index;
     }
 
+    // 打开全屏预览
     function openFullscreen(src) {
       const activeThumb = document.querySelector(".thumbnail-item.active");
       const index = parseInt(activeThumb?.getAttribute("data-index")) || 0;
@@ -308,77 +340,121 @@
 
       fullscreenImage.src = src;
       fullscreenImage.style.transform = "scale(1)";
+      fullscreenImage.style.width = "100%";
+      fullscreenImage.style.height = "auto";
+      fullscreenImage.style.maxHeight = "100dvh";
+      fullscreenImage.style.objectFit = "contain";
+
       viewer.style.display = 'flex';
       document.body.style.overflow = 'hidden';
+
+      updateImageIndicator();
+      updateArrowLayout();
     }
 
+    // 关闭全屏预览
     function closeFullscreen() {
       viewer.style.display = 'none';
       document.body.style.overflow = '';
     }
 
+    // 显示上一张（首尾限制）
     function showPrevImage() {
-      currentIndex = (currentIndex - 1 + imageList.length) % imageList.length;
-      updateFullscreenImage();
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateFullscreenImage();
+      }
     }
 
+    // 显示下一张（首尾限制）
     function showNextImage() {
-      currentIndex = (currentIndex + 1) % imageList.length;
-      updateFullscreenImage();
+      if (currentIndex < imageList.length - 1) {
+        currentIndex++;
+        updateFullscreenImage();
+      }
     }
 
+    // 更新全屏图片与UI
     function updateFullscreenImage() {
       fullscreenImage.src = imageList[currentIndex];
       fullscreenImage.style.transform = "scale(1)";
+      fullscreenImage.style.width = "100%";
+      fullscreenImage.style.height = "auto";
+      fullscreenImage.style.maxHeight = "100dvh";
+      updateImageIndicator();
+      updateArrowLayout();
     }
 
-    // 所有设备：点击图片退出
-    fullscreenImage.addEventListener("click", function () {
-      if (viewer.style.display === 'flex') {
-        closeFullscreen();
-      }
+    // 更新页码提示
+    function updateImageIndicator() {
+      indicator.textContent = `${currentIndex + 1} / ${imageList.length}`;
+    }
+
+  // 更新箭头布局（电脑端，强制左右分侧 + 正确显示/隐藏）
+  function updateArrowLayout() {
+    const leftZone = document.getElementById("arrow-left");
+    const rightZone = document.getElementById("arrow-right");
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
+    if (!leftZone || !rightZone || !prevBtn || !nextBtn) return;
+
+    const isFirst = currentIndex === 0;
+    const isLast = currentIndex === imageList.length - 1;
+    const isDesktop = window.innerWidth > 768;
+
+    // 移动端隐藏
+    if (!isDesktop) {
+      leftZone.style.display = "none";
+      rightZone.style.display = "none";
+      return;
+    }
+
+    // 左右容器始终显示
+    leftZone.style.display = "block";
+    rightZone.style.display = "block";
+
+    // 箭头按钮显示逻辑
+    prevBtn.style.display = isFirst ? "none" : "inline-flex";
+    nextBtn.style.display = isLast ? "none" : "inline-flex";
+  }
+
+
+    // 全局函数绑定
+    window.showPrevImage = showPrevImage;
+    window.showNextImage = showNextImage;
+    window.closeFullscreen = closeFullscreen;
+
+    // 主图点击进入全屏
+    mainImage.addEventListener("click", function () {
+      openFullscreen(this.src);
     });
 
-    // 移动端：滑动切换 + 轻点退出
-    let touchStartX = 0, touchStartY = 0, touchStartTime = 0;
+    // 缩略图点击切换主图
+    thumbnails.forEach((item, index) => {
+      item.addEventListener("click", () => updateMainImage(index));
+    });
 
-    viewer.addEventListener("touchstart", function (e) {
-      const t = e.changedTouches[0];
-      touchStartX = t.screenX;
-      touchStartY = t.screenY;
-      touchStartTime = Date.now();
-    }, { passive: true });
+    // 页面内左右按钮切换主图
+    const prevThumbBtn = document.querySelector(".prev-image");
+    const nextThumbBtn = document.querySelector(".next-image");
+    if (prevThumbBtn) {
+      prevThumbBtn.addEventListener("click", function () {
+        const newIndex = (currentIndex - 1 + thumbnails.length) % thumbnails.length;
+        updateMainImage(newIndex);
+      });
+    }
+    if (nextThumbBtn) {
+      nextThumbBtn.addEventListener("click", function () {
+        const newIndex = (currentIndex + 1) % thumbnails.length;
+        updateMainImage(newIndex);
+      });
+    }
 
-    viewer.addEventListener("touchend", function (e) {
-      const t = e.changedTouches[0];
-      const dx = t.screenX - touchStartX;
-      const dy = t.screenY - touchStartY;
-      const dt = Date.now() - touchStartTime;
+    // -------------------------------
+    // ✅ 电脑端专属逻辑
+    // -------------------------------
 
-      const swipeThreshold = 50;
-      const tapMoveThreshold = 10;
-      const tapTimeThreshold = 250;
-
-      // 轻点退出（全屏任意位置）
-      if (Math.abs(dx) < tapMoveThreshold && Math.abs(dy) < tapMoveThreshold && dt < tapTimeThreshold) {
-        if (viewer.style.display === 'flex') {
-          closeFullscreen();
-          return;
-        }
-      }
-
-      // 滑动切换（仅限图片区域）
-      const touchedElement = document.elementFromPoint(t.screenX, t.screenY);
-      if (touchedElement === fullscreenImage && Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > swipeThreshold) {
-        if (dx > 0) {
-          showPrevImage();
-        } else {
-          showNextImage();
-        }
-      }
-    }, { passive: true });
-
-    // 鼠标滚轮缩放（电脑端）
+    // 鼠标滚轮缩放
     document.addEventListener("wheel", function (e) {
       if (viewer.style.display === 'flex' && window.innerWidth > 768) {
         e.preventDefault();
@@ -396,48 +472,83 @@
       }
     });
 
-    // 主图点击进入全屏
-    mainImage.addEventListener("click", function () {
-      openFullscreen(this.src);
+    // 点击图片退出（电脑端）
+    fullscreenImage.addEventListener("click", function () {
+      if (viewer.style.display === 'flex') {
+        closeFullscreen();
+      }
     });
 
-    // 缩略图点击切换主图
-    thumbnails.forEach((item, index) => {
-      item.addEventListener("click", () => updateMainImage(index));
-    });
+    // 箭头点击事件
+    if (prevBtn) prevBtn.addEventListener("click", (e) => { e.stopPropagation(); showPrevImage(); });
+    if (nextBtn) nextBtn.addEventListener("click", (e) => { e.stopPropagation(); showNextImage(); });
 
-    // 左右按钮切换主图（页面非全屏区域）
-    const prevBtn = document.querySelector(".prev-image");
-    const nextBtn = document.querySelector(".next-image");
-    if (prevBtn) {
-      prevBtn.addEventListener("click", function () {
-        const newIndex = (currentIndex - 1 + thumbnails.length) % thumbnails.length;
-        updateMainImage(newIndex);
-      });
-    }
-    if (nextBtn) {
-      nextBtn.addEventListener("click", function () {
-        const newIndex = (currentIndex + 1) % thumbnails.length;
-        updateMainImage(newIndex);
-      });
-    }
+    // 窗口尺寸变化时更新箭头布局
+    window.addEventListener("resize", updateArrowLayout);
 
-    // 全屏按钮调用的全局函数
-    window.showPrevImage = showPrevImage;
-    window.showNextImage = showNextImage;
-    window.closeFullscreen = closeFullscreen;
+    // -------------------------------
+    // ✅ 移动端专属逻辑
+    // -------------------------------
+
+    let touchStartX = 0, touchStartY = 0, touchStartTime = 0;
+
+    viewer.addEventListener("touchstart", function (e) {
+      const t = e.changedTouches[0];
+      touchStartX = t.screenX;
+      touchStartY = t.screenY;
+      touchStartTime = Date.now();
+    }, { passive: true });
+
+    viewer.addEventListener("touchend", function (e) {
+      const t = e.changedTouches[0];
+      const dx = t.screenX - touchStartX;
+      const dy = t.screenY - touchStartY;
+      const dt = Date.now() - touchStartTime;
+
+      const swipeThreshold = 50;
+      const tapMoveThreshold = 20;
+      const tapTimeThreshold = 300;
+
+      // 轻触退出
+      if (Math.abs(dx) < tapMoveThreshold && Math.abs(dy) < tapMoveThreshold && dt < tapTimeThreshold) {
+        if (viewer.style.display === 'flex') {
+          closeFullscreen();
+          return;
+        }
+      }
+
+      // 滑动切换（仅限图片区域，首尾限制）
+      const touchedElement = document.elementFromPoint(t.screenX, t.screenY);
+      if (touchedElement === fullscreenImage && Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > swipeThreshold) {
+        if (dx > 0 && currentIndex > 0) {
+          showPrevImage();
+        } else if (dx < 0 && currentIndex < imageList.length - 1) {
+          showNextImage();
+        }
+      }
+    }, { passive: true });
   });
 </script>
+
 
 <!-- 全屏预览容器 -->
 <div id="fullscreen-viewer" class="fullscreen-viewer" style="display: none;">
   <img id="fullscreen-image" src="" alt="预览图片">
 
-  <div class="fullscreen-desktop-controls">
-    <button class="fullscreen-nav-btn prev" onclick="event.stopPropagation(); showPrevImage();">←</button>
-    <button class="fullscreen-nav-btn next" onclick="event.stopPropagation(); showNextImage();">→</button>
+  <!-- 左箭头容器 -->
+  <div id="arrow-left" class="arrow-zone">
+    <button id="prev-btn" class="fullscreen-nav-btn prev">←</button>
   </div>
+
+  <!-- 右箭头容器 -->
+  <div id="arrow-right" class="arrow-zone">
+    <button id="next-btn" class="fullscreen-nav-btn next">→</button>
+  </div>
+
+  <!-- 页码提示 -->
+  <div id="image-index-indicator" class="image-index-indicator"></div>
 </div>
+
 
 </body>
 </html>

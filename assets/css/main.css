@@ -874,16 +874,6 @@ section,
 }
 
 /*--------------------------------------------------------------
-# About Section
---------------------------------------------------------------*/
-
-/*--------------------------------------------------------------
-# Skills Section
---------------------------------------------------------------*/
-
-/*--------------------------------------------------------------
-# Resume Section
---------------------------------------------------------------*/
 
 /*--------------------------------------------------------------
 # Portfolio Section
@@ -1052,110 +1042,6 @@ section,
 }
 
 /*--------------------------------------------------------------
-# Testimonials Section
---------------------------------------------------------------*/
-
-/*--------------------------------------------------------------
-# Services Section
---------------------------------------------------------------*/
-
-/*--------------------------------------------------------------
-# Faq Section
---------------------------------------------------------------*/
-
-/*--------------------------------------------------------------
-# Contact Section
---------------------------------------------------------------*/
-.contact .section-category {
-  font-family: var(--heading-font);
-  font-weight: 600;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.contact .content h2 {
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-.contact .content .lead {
-  color: color-mix(in srgb, var(--default-color), transparent 25%);
-}
-
-.contact .contact-info .info-item {
-  font-size: 1.1rem;
-}
-
-.contact .contact-info .info-item i {
-  color: var(--accent-color);
-  font-size: 1.4rem;
-}
-
-.contact .contact-info .map-link {
-  color: var(--heading-color);
-  font-weight: 500;
-  font-size: 1.1rem;
-  transition: all 0.3s ease;
-}
-
-.contact .contact-info .map-link i {
-  transition: transform 0.3s ease;
-}
-
-.contact .contact-info .map-link:hover {
-  color: var(--accent-color);
-}
-
-.contact .contact-info .map-link:hover i {
-  transform: translateX(5px);
-}
-
-.contact .contact-form {
-  background-color: var(--surface-color);
-  border: none;
-  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
-  border-radius: 12px;
-}
-
-.contact .contact-form .form-control,
-.contact .contact-form .form-select {
-  padding: 0.75rem 1.25rem;
-  border-color: #e5e5e5;
-  border-radius: 8px;
-  font-size: 1rem;
-}
-
-.contact .contact-form .form-control:focus,
-.contact .contact-form .form-select:focus {
-  border-color: color-mix(in srgb, var(--accent-color), transparent 50%);
-  box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--accent-color), transparent 90%);
-}
-
-.contact .contact-form .form-control::placeholder,
-.contact .contact-form .form-select::placeholder {
-  color: color-mix(in srgb, var(--default-color), transparent 50%);
-}
-
-.contact .contact-form .btn-submit {
-  background-color: var(--accent-color);
-  color: var(--contrast-color);
-  padding: 0.75rem 2rem;
-  font-weight: 500;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
-
-.contact .contact-form .btn-submit:hover {
-  background-color: color-mix(in srgb, var(--accent-color), transparent 15%);
-  transform: translateY(-1px);
-}
-
-.contact .contact-form .btn-submit:active {
-  transform: translateY(0);
-}
-
-/*--------------------------------------------------------------
 # Portfolio Details Section
 --------------------------------------------------------------*/
 .portfolio-details .portfolio-info h3 {
@@ -1273,190 +1159,20 @@ section,
   padding: 0;
 }
 
-/*--------------------------------------------------------------
-# Service Details Section
---------------------------------------------------------------*/
-.service-details .service-details-slider {
-  position: relative;
-  overflow: hidden;
-  border-radius: 10px;
-  z-index: 1;
-}
-
-.service-details .service-details-slider .swiper-wrapper {
-  height: auto !important;
-}
-
-.service-details .service-details-slider .swiper-pagination {
-  position: absolute;
-  bottom: 20px;
-  left: 0;
-  right: 0;
-  z-index: 2;
-}
-
-.service-details .service-details-slider .swiper-pagination .swiper-pagination-bullet {
-  width: 10px;
-  height: 10px;
-  background-color: var(--contrast-color);
-  opacity: 0.5;
-  transition: 0.3s;
-}
-
-.service-details .service-details-slider .swiper-pagination .swiper-pagination-bullet.swiper-pagination-bullet-active {
-  opacity: 1;
-  width: 20px;
-  border-radius: 5px;
-}
-
-.service-details .content h3 {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 20px;
-}
-
-.service-details .content p {
-  color: color-mix(in srgb, var(--default-color), transparent 20%);
-  margin-bottom: 15px;
-}
-
-.service-details .content .features .feature-box {
-  padding: 20px;
-  background: var(--surface-color);
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
-  height: 100%;
-  transition: 0.3s;
-}
-
-.service-details .content .features .feature-box:hover {
-  transform: translateY(-5px);
-}
-
-.service-details .content .features .feature-box i {
-  font-size: 24px;
-  color: var(--accent-color);
-  margin-right: 15px;
-}
-
-.service-details .content .features .feature-box h4 {
-  font-size: 18px;
-  font-weight: 600;
-  margin: 0;
-}
-
-.service-details .service-info {
-  background: var(--surface-color);
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
-}
-
-.service-details .service-info h4 {
-  font-size: 22px;
-  font-weight: 700;
-  margin-bottom: 25px;
-  padding-bottom: 15px;
-  border-bottom: 2px solid color-mix(in srgb, var(--accent-color), transparent 85%);
-}
-
-.service-details .service-info .info-item {
-  margin-bottom: 25px;
-}
-
-.service-details .service-info .info-item:last-child {
-  margin-bottom: 0;
-}
-
-.service-details .service-info .info-item i {
-  font-size: 24px;
-  color: var(--accent-color);
-  margin-bottom: 10px;
-}
-
-.service-details .service-info .info-item h5 {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 5px;
-}
-
-.service-details .service-info .info-item p {
-  color: color-mix(in srgb, var(--default-color), transparent 20%);
-  margin: 0;
-}
-
-.service-details .related-services {
-  background: var(--surface-color);
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
-}
-
-.service-details .related-services h4 {
-  font-size: 22px;
-  font-weight: 700;
-  margin-bottom: 25px;
-  padding-bottom: 15px;
-  border-bottom: 2px solid color-mix(in srgb, var(--accent-color), transparent 85%);
-}
-
-.service-details .related-services .service-item {
-  margin-bottom: 25px;
-  padding-bottom: 25px;
-  border-bottom: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
-}
-
-.service-details .related-services .service-item:last-child {
-  margin-bottom: 0;
-  padding-bottom: 0;
-  border-bottom: none;
-}
-
-.service-details .related-services .service-item i {
-  font-size: 24px;
-  color: var(--accent-color);
-  margin-bottom: 10px;
-}
-
-.service-details .related-services .service-item h5 {
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-.service-details .related-services .service-item h5 a {
-  color: var(--heading-color);
-  transition: 0.3s;
-}
-
-.service-details .related-services .service-item h5 a:hover {
-  color: var(--accent-color);
-}
-
-.service-details .related-services .service-item p {
-  color: color-mix(in srgb, var(--default-color), transparent 20%);
-  margin: 0;
-  font-size: 14px;
-}
-
-@media (max-width: 991px) {
-
-  .service-details .service-info,
-  .service-details .related-services {
-    margin-top: 30px;
-  }
-}
-
-/*--------------------------------------------------------------
-# Starter Section Section
---------------------------------------------------------------*/
-.starter-section {
-  
-}
-
 
 /*--------------------------------------------------------------
 # Property Details Section
 --------------------------------------------------------------*/
+/* -------------------------------
+   ? 共用样式（所有设备共用）
+   - Property Details 主图、缩略图
+   - Gallery 居中与横向滚动
+   - 全屏容器与图片
+   - 页码提示
+   - 左右箭头容器（左右分布）
+-------------------------------- */
+
+/* # Property Details Section --------------------------------- */
 .property-details .property-gallery .main-image-container {
   position: relative;
   margin-bottom: 20px;
@@ -1482,12 +1198,7 @@ section,
   z-index: 10;
 }
 
-@media (max-width: 768px) {
-  .property-details .property-gallery .main-image-container .image-zoom-container {
-    display: none;
-  }
-}
-
+/* 页面内主图左右切换按钮（非全屏） */
 .property-details .property-gallery .main-image-container .image-nav-btn {
   position: absolute;
   top: 50%;
@@ -1513,14 +1224,10 @@ section,
   color: var(--contrast-color);
 }
 
-.property-details .property-gallery .main-image-container .image-nav-btn.prev-image {
-  left: 15px;
-}
+.property-details .property-gallery .main-image-container .image-nav-btn.prev-image { left: 15px; }
+.property-details .property-gallery .main-image-container .image-nav-btn.next-image { right: 15px; }
 
-.property-details .property-gallery .main-image-container .image-nav-btn.next-image {
-  right: 15px;
-}
-
+/* 缩略图栅格 */
 .property-details .property-gallery .thumbnail-gallery {
   display: flex;
   gap: 10px;
@@ -1551,32 +1258,7 @@ section,
   object-fit: cover;
 }
 
-
-@media (max-width: 768px) {
-  .property-details .property-overview {
-    position: static !important;
-    top: auto !important;
-    margin-top: 30px;
-  }
-
-  .property-details .property-overview .property-stats {
-    grid-template-columns: 1fr;
-  }
-
-  .property-details .property-gallery .main-image-container .main-property-image {
-    height: 300px;
-  }
-
-  .property-details .property-gallery .thumbnail-gallery .thumbnail-item {
-    min-width: 80px;
-  }
-
-  .property-details .property-gallery .thumbnail-gallery .thumbnail-item img {
-    height: 60px;
-  }
-}
-
-/* 图片区域居中展示 */
+/* 图片区域居中展示（辅助） */
 .property-gallery {
   display: flex;
   flex-direction: column;
@@ -1585,12 +1267,8 @@ section,
   text-align: center;
 }
 
-/* 主图容器与图片自适应 */
-.main-image-container {
-  width: 100%;
-  overflow: hidden;
-}
-
+/* 主图容器与图片自适应（辅助） */
+.main-image-container { width: 100%; overflow: hidden; }
 .main-property-image {
   width: 100%;
   height: auto;
@@ -1599,7 +1277,7 @@ section,
   cursor: pointer;
 }
 
-/* 缩略图横向滚动 */
+/* 缩略图横向滚动（辅助） */
 .thumbnail-gallery {
   display: flex;
   overflow-x: auto;
@@ -1607,12 +1285,7 @@ section,
   padding-bottom: 1rem;
   -webkit-overflow-scrolling: touch;
 }
-
-.thumbnail-item {
-  flex: 0 0 auto;
-  width: 80px;
-}
-
+.thumbnail-item { flex: 0 0 auto; width: 80px; }
 .thumbnail-item img {
   width: 100%;
   height: auto;
@@ -1620,7 +1293,7 @@ section,
   cursor: pointer;
 }
 
-/* 全屏预览容器 */
+/* 全屏预览容器与图片 */
 .fullscreen-viewer {
   position: fixed;
   inset: 0;
@@ -1632,28 +1305,62 @@ section,
   overflow: hidden;
 }
 
-/* 全屏图片样式 */
 .fullscreen-viewer img {
+  width: auto;
+  height: 100vh;
   max-width: 100%;
-  max-height: 100%;
   object-fit: contain;
   touch-action: manipulation;
   transition: transform 0.2s ease;
   cursor: pointer;
 }
 
-/* 桌面端控制按钮 */
-.fullscreen-desktop-controls {
+/* 页码提示（全屏底部居中） */
+.image-index-indicator {
   position: absolute;
-  top: 50%;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  transform: translateY(-50%);
-  padding: 0 1rem;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 0.9rem;
+  background: rgba(0,0,0,0.5);
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
   pointer-events: none;
 }
 
+/* 全屏左右箭头容器（左右分布方案） */
+.arrow-zone {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 10000;
+}
+#arrow-left { left: 1rem; }
+#arrow-right { right: 1rem; }
+
+/* 全屏箭头按钮（左右分布方案） */
+.fullscreen-nav-btn {
+  pointer-events: auto;
+  background: rgba(0,0,0,0.25);
+  color: #fff;
+  border: none;
+  font-size: 2rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background .15s ease;
+}
+.fullscreen-nav-btn:hover { background: rgba(0,0,0,0.35); }
+
+
+/* -------------------------------
+   ? 电脑端专属样式
+   - 容器显示策略等（如需）
+-------------------------------- */
+
+/* 已弃用容器下的按钮（与上方 .fullscreen-nav-btn 为同名类，保留以兼容旧结构） */
 .fullscreen-nav-btn {
   pointer-events: auto;
   background: rgba(255,255,255,0.2);
@@ -1665,14 +1372,71 @@ section,
   z-index: 10000;
 }
 
-/* 移动端适配 */
+
+/* -------------------------------
+   ? 手机端专属样式
+   - 隐藏缩放容器
+   - 概览区与主图缩略图尺寸调整
+   - 全屏箭头容器隐藏（移动端滑动切换）
+-------------------------------- */
+
 @media (max-width: 768px) {
+  /* 隐藏主图右侧缩放预览容器 */
+  .property-details .property-gallery .main-image-container .image-zoom-container {
+    display: none;
+  }
+
+  /* 概览区位置调整 */
+  .property-details .property-overview {
+    position: static !important;
+    top: auto !important;
+    margin-top: 30px;
+  }
+  .property-details .property-overview .property-stats {
+    grid-template-columns: 1fr;
+  }
+
+  /* 主图高度缩小（保留 cover 视觉） */
+  .property-details .property-gallery .main-image-container .main-property-image {
+    height: 300px;
+  }
+
+  /* 缩略图尺寸缩小 */
+  .property-details .property-gallery .thumbnail-gallery .thumbnail-item {
+    min-width: 80px;
+  }
+  .property-details .property-gallery .thumbnail-gallery .thumbnail-item img {
+    height: 60px;
+  }
+
+  /* 容器最大宽度适配 */
   .container {
     max-width: 100%;
     padding: 0 1rem;
   }
 
+  /* 移动端：隐藏旧的桌面集中容器 */
   .fullscreen-desktop-controls {
+    display: none !important;
+  }
+
+  /* 仅修复：手机端主图预览完整显示（不裁切，范围最小化） */
+  .property-details .property-gallery .main-image-container {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+  .property-details .property-gallery .main-image-container .main-property-image,
+  #main-product-image {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 85dvh;               /* 防止过高挤压屏幕，可按需调整 */
+    object-fit: contain !important;  /* 完整显示，不裁切 */
+    display: block !important;
+  }
+
+  /* 移动端：隐藏左右分布的全屏箭头容器（保留触控滑动切换） */
+  #arrow-left, #arrow-right {
     display: none !important;
   }
 }
