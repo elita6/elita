@@ -1581,6 +1581,16 @@ section,
   word-break: break-word;
 }
 
+/* 双指缩放手机端图片 */
+#fullscreen-viewer {
+  overflow: hidden;
+  touch-action: none; /* 禁止默认手势行为 */
+}
+
+#fullscreen-image {
+  transition: transform 0.2s ease;
+  transform-origin: center center;
+}
 
 
 
