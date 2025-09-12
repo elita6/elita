@@ -1159,35 +1159,28 @@ section,
   padding: 0;
 }
 
-
 /*--------------------------------------------------------------
-# Property Details Section
+# Project Details Section 样式总览
 --------------------------------------------------------------*/
-/* -------------------------------
-   ? 共用样式（所有设备共用）
-   - Property Details 主图、缩略图
-   - Gallery 居中与横向滚动
-   - 全屏容器与图片
-   - 页码提示
-   - 左右箭头容器（左右分布）
--------------------------------- */
 
-/* # Property Details Section --------------------------------- */
-.property-details .property-gallery .main-image-container {
+/* ============================================================
+= ? 主图区域（主图容器、主图图像、缩放容器、左右切换按钮）
+============================================================ */
+.project-details .project-gallery .main-image-container {
   position: relative;
   margin-bottom: 20px;
   overflow: hidden;
   border-radius: 12px;
 }
 
-.property-details .property-gallery .main-image-container .main-property-image {
+.project-details .project-gallery .main-image-container .main-project-image {
   width: 100%;
   height: 500px;
   object-fit: cover;
   cursor: zoom-in;
 }
 
-.property-details .property-gallery .main-image-container .image-zoom-container {
+.project-details .project-gallery .main-image-container .image-zoom-container {
   position: absolute;
   top: 0;
   right: -100%;
@@ -1198,8 +1191,8 @@ section,
   z-index: 10;
 }
 
-/* 页面内主图左右切换按钮（非全屏） */
-.property-details .property-gallery .main-image-container .image-nav-btn {
+/* 主图左右切换按钮（非全屏） */
+.project-details .project-gallery .main-image-container .image-nav-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -1219,22 +1212,29 @@ section,
   backdrop-filter: blur(10px);
 }
 
-.property-details .property-gallery .main-image-container .image-nav-btn:hover {
+.project-details .project-gallery .main-image-container .image-nav-btn:hover {
   background-color: var(--accent-color);
   color: var(--contrast-color);
 }
 
-.property-details .property-gallery .main-image-container .image-nav-btn.prev-image { left: 15px; }
-.property-details .property-gallery .main-image-container .image-nav-btn.next-image { right: 15px; }
+.project-details .project-gallery .main-image-container .image-nav-btn.prev-image {
+  left: 15px;
+}
 
-/* 缩略图栅格 */
-.property-details .property-gallery .thumbnail-gallery {
+.project-details .project-gallery .main-image-container .image-nav-btn.next-image {
+  right: 15px;
+}
+
+/* ============================================================
+= ? 缩略图区域（栅格布局、选中态、图片样式）
+============================================================ */
+.project-details .project-gallery .thumbnail-gallery {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
 }
 
-.property-details .property-gallery .thumbnail-gallery .thumbnail-item {
+.project-details .project-gallery .thumbnail-gallery .thumbnail-item {
   flex: 1;
   min-width: 100px;
   border-radius: 8px;
@@ -1244,22 +1244,24 @@ section,
   transition: all 0.3s ease;
 }
 
-.property-details .property-gallery .thumbnail-gallery .thumbnail-item.active {
+.project-details .project-gallery .thumbnail-gallery .thumbnail-item.active {
   border-color: var(--accent-color);
 }
 
-.property-details .property-gallery .thumbnail-gallery .thumbnail-item:hover {
+.project-details .project-gallery .thumbnail-gallery .thumbnail-item:hover {
   border-color: color-mix(in srgb, var(--accent-color), transparent 50%);
 }
 
-.property-details .property-gallery .thumbnail-gallery .thumbnail-item img {
+.project-details .project-gallery .thumbnail-gallery .thumbnail-item img {
   width: 100%;
   height: 80px;
   object-fit: cover;
 }
 
-/* 图片区域居中展示（辅助） */
-.property-gallery {
+/* ============================================================
+= ? 辅助布局样式（居中、滚动、自适应）
+============================================================ */
+.project-gallery {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1267,9 +1269,12 @@ section,
   text-align: center;
 }
 
-/* 主图容器与图片自适应（辅助） */
-.main-image-container { width: 100%; overflow: hidden; }
-.main-property-image {
+.main-image-container {
+  width: 100%;
+  overflow: hidden;
+}
+
+.main-project-image {
   width: 100%;
   height: auto;
   object-fit: contain;
@@ -1277,7 +1282,6 @@ section,
   cursor: pointer;
 }
 
-/* 缩略图横向滚动（辅助） */
 .thumbnail-gallery {
   display: flex;
   overflow-x: auto;
@@ -1285,7 +1289,12 @@ section,
   padding-bottom: 1rem;
   -webkit-overflow-scrolling: touch;
 }
-.thumbnail-item { flex: 0 0 auto; width: 80px; }
+
+.thumbnail-item {
+  flex: 0 0 auto;
+  width: 80px;
+}
+
 .thumbnail-item img {
   width: 100%;
   height: auto;
@@ -1293,7 +1302,9 @@ section,
   cursor: pointer;
 }
 
-/* 全屏预览容器与图片 */
+/* ============================================================
+= ? 全屏预览区域（容器、图像、箭头、页码）
+============================================================ */
 .fullscreen-viewer {
   position: fixed;
   inset: 0;
@@ -1315,7 +1326,7 @@ section,
   cursor: pointer;
 }
 
-/* 页码提示（全屏底部居中） */
+/* 页码提示（底部居中） */
 .image-index-indicator {
   position: absolute;
   bottom: 1rem;
@@ -1329,7 +1340,7 @@ section,
   pointer-events: none;
 }
 
-/* 全屏左右箭头容器（左右分布方案） */
+/* 左右箭头容器与按钮 */
 .arrow-zone {
   position: absolute;
   top: 50%;
@@ -1337,10 +1348,15 @@ section,
   pointer-events: none;
   z-index: 10000;
 }
-#arrow-left { left: 1rem; }
-#arrow-right { right: 1rem; }
 
-/* 全屏箭头按钮（左右分布方案） */
+#arrow-left {
+  left: 1rem;
+}
+
+#arrow-right {
+  right: 1rem;
+}
+
 .fullscreen-nav-btn {
   pointer-events: auto;
   background: rgba(0,0,0,0.25);
@@ -1352,60 +1368,56 @@ section,
   cursor: pointer;
   transition: background .15s ease;
 }
-.fullscreen-nav-btn:hover { background: rgba(0,0,0,0.35); }
 
-
-/* -------------------------------
-   ? 电脑端专属样式
-   - 容器显示策略等（如需）
--------------------------------- */
-
-/* 已弃用容器下的按钮（与上方 .fullscreen-nav-btn 为同名类，保留以兼容旧结构） */
-.fullscreen-nav-btn {
-  pointer-events: auto;
-  background: rgba(255,255,255,0.2);
-  border: none;
-  color: white;
-  font-size: 2rem;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  z-index: 10000;
+.fullscreen-nav-btn:hover {
+  background: rgba(0,0,0,0.35);
 }
 
+/* ============================================================
+= ? 电脑端专属样式（兼容旧结构）
+============================================================ */
+@media (min-width: 769px) {
+  .fullscreen-nav-btn {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    font-size: 2rem;
+    padding: 0.5rem 1rem;
+    z-index: 10000;
+  }
+}
 
-/* -------------------------------
-   ? 手机端专属样式
-   - 隐藏缩放容器
-   - 概览区与主图缩略图尺寸调整
-   - 全屏箭头容器隐藏（移动端滑动切换）
--------------------------------- */
-
+/* ============================================================
+= ? 移动端专属样式（统一 @media 块）
+============================================================ */
 @media (max-width: 768px) {
-  /* 隐藏主图右侧缩放预览容器 */
-  .property-details .property-gallery .main-image-container .image-zoom-container {
+  /* 隐藏主图右侧缩放容器 */
+  .project-details .project-gallery .main-image-container .image-zoom-container {
     display: none;
   }
 
-  /* 概览区位置调整 */
-  .property-details .property-overview {
+  /* 概览区布局调整 */
+  .project-details .project-overview {
     position: static !important;
     top: auto !important;
     margin-top: 30px;
   }
-  .property-details .property-overview .property-stats {
+
+  .project-details .project-overview .project-stats {
     grid-template-columns: 1fr;
   }
 
-  /* 主图高度缩小（保留 cover 视觉） */
-  .property-details .property-gallery .main-image-container .main-property-image {
+  /* 主图高度缩小 */
+  .project-details .project-gallery .main-image-container .main-project-image {
     height: 300px;
   }
 
   /* 缩略图尺寸缩小 */
-  .property-details .property-gallery .thumbnail-gallery .thumbnail-item {
+  .project-details .project-gallery .thumbnail-gallery .thumbnail-item {
     min-width: 80px;
   }
-  .property-details .property-gallery .thumbnail-gallery .thumbnail-item img {
+
+  .project-details .project-gallery .thumbnail-gallery .thumbnail-item img {
     height: 60px;
   }
 
@@ -1415,48 +1427,46 @@ section,
     padding: 0 1rem;
   }
 
-  /* 移动端：隐藏旧的桌面集中容器 */
+  /* 隐藏桌面控件 */
   .fullscreen-desktop-controls {
     display: none !important;
   }
 
-  /* 仅修复：手机端主图预览完整显示（不裁切，范围最小化） */
-  .property-details .property-gallery .main-image-container {
+  /* 主图完整显示 */
+  .project-details .project-gallery .main-image-container {
     height: auto !important;
     max-height: none !important;
     overflow: visible !important;
   }
-  .property-details .property-gallery .main-image-container .main-property-image,
+
+  .project-details .project-gallery .main-image-container .main-project-image,
   #main-product-image {
     width: 100% !important;
     height: auto !important;
-    max-height: 85dvh;               /* 防止过高挤压屏幕，可按需调整 */
-    object-fit: contain !important;  /* 完整显示，不裁切 */
+    max-height: 85dvh;
+    object-fit: contain !important;
     display: block !important;
   }
 
-  /* 移动端：隐藏左右分布的全屏箭头容器（保留触控滑动切换） */
+  /* 隐藏左右箭头容器 */
   #arrow-left, #arrow-right {
     display: none !important;
   }
-}
 
-  /* 移动端：隐藏左右分布的全屏箭头容器（保留触控滑动切换） */
-  @media (max-width: 768px) {
-    #mobile-click-zone {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 30%;
-      z-index: 9998;
-      background: transparent;
-    }
+  /* 底部点击区域（用于滑动） */
+  #mobile-click-zone {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30%;
+    z-index: 9998;
+    background: transparent;
   }
 
-  /* 0912 新增：底部 < > 控制条样式 */
+  /* 底部 < > 控制条 */
   #mobile-bottom-controls {
-    position: absolute;
+    position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
@@ -1484,23 +1494,16 @@ section,
     background: transparent;
   }
 
-  /* 0912新增：页码上移并提升层级，避免被遮挡 */
+  /* 页码提示位置上移，避免被底部控件遮挡 */
   .image-index-indicator {
     bottom: 3.6rem;
     z-index: 10003;
   }
-}
 
-/* 0912新增：确保全屏容器允许子元素绝对定位 */
-#fullscreen-viewer {
-  position: relative;
-}
-
-@media (max-width: 768px) {
-  /* ? 移动端右上角关闭按钮 */
+  /* 移动端右上角关闭按钮 */
   #mobile-close-btn {
     position: absolute;
-    top: 19rem;
+    top: 1rem;
     right: 0.5rem;
     z-index: 10004;
     font-size: 2rem;
@@ -1511,9 +1514,8 @@ section,
     user-select: none;
     backdrop-filter: blur(4px);
 
-    /* ? 强制清除背景相关属性 */
+    /* 清除默认背景样式 */
     background: none !important;
-    backdrop-filter: none !important;
     box-shadow: none !important;
     border: none !important;
   }
@@ -1522,6 +1524,7 @@ section,
     background: transparent;
   }
 }
+
 
 /* Add your styles here */
 
