@@ -245,10 +245,10 @@
           <strong style="color: #000;">Elita</strong>
           <span data-i18n="footer.rights" style="color: #000;">All rights reserved.</span>
       </p>
-      <p>
+      <!--<p>
           <span data-i18n="footer.credit" style="color: #000;">Designed by</span>
           <span style="color: #000;">BootstrapMade</span>
-      </p>
+      </p>-->
       </div>
   </div>
   </footer>
@@ -330,6 +330,7 @@
       viewer.appendChild(indicator);
     }
 
+
     // 当前图片索引与列表
     let currentIndex = thumbnails.findIndex(item => item.classList.contains("active"));
     if (currentIndex < 0) currentIndex = 0;
@@ -352,7 +353,7 @@
 
     // 打开全屏预览
     function openFullscreen(src) {
-      // ✅ 保留 currentIndex，不重置为 0
+      // ✅ 保留 currentIndex，不重置为 0--0912
       if (typeof currentIndex !== 'number' || isNaN(currentIndex)) {
         currentIndex = 0;
       }
@@ -371,7 +372,7 @@
       updateImageIndicator();
       updateArrowLayout();
 
-       // ✅ [追加] 创建底部 < > 控制条（仅移动端，仅首次创建）
+       // ✅ [追加] 创建底部 < > 控制条（仅移动端，仅首次创建）0912
       if (window.innerWidth <= 768 && !document.getElementById("mobile-bottom-controls")) {
         const bar = document.createElement("div");
         bar.id = "mobile-bottom-controls";
@@ -399,6 +400,20 @@
           if (currentIndex < imageList.length - 1) showNextImage();
         });
       } 
+
+        // ✅ 创建移动端关闭按钮（仅首次创建）
+        if (window.innerWidth <= 768 && !document.getElementById("mobile-close-btn")) {
+          const closeBtn = document.createElement("div");
+          closeBtn.id = "mobile-close-btn";
+          closeBtn.setAttribute("aria-label", "Close");
+          closeBtn.textContent = "×";
+          viewer.appendChild(closeBtn);
+
+          closeBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            closeFullscreen();
+          });
+        }
 
     }
 
@@ -562,15 +577,17 @@
       const tapMoveThreshold = 20;
       const tapTimeThreshold = 300;
 
-      // ✅ 避免误触底部控制条050912
+      // ✅ 避免误触底部控制条0912
       const onBottomBar = e.target.closest && e.target.closest("#mobile-bottom-controls");
       if (onBottomBar) return;
 
-      // 1. 轻触退出
-      if (Math.abs(dx) < tapMoveThreshold && Math.abs(dy) < tapMoveThreshold && dt < tapTimeThreshold) {
-        if (viewer.style.display === 'flex') {
-          closeFullscreen();
-          return;
+      // ✅ 1、移动端禁用轻触退出（改为 X 按钮）0912
+      if (window.innerWidth > 768) {
+        if (Math.abs(dx) < tapMoveThreshold && Math.abs(dy) < tapMoveThreshold && dt < tapTimeThreshold) {
+          if (viewer.style.display === 'flex') {
+            closeFullscreen();
+            return;
+          }
         }
       }
 
@@ -691,6 +708,11 @@
         } else {
           el.textContent = val;
         }
+      });
+
+      // ✅ 新增：语言感知排版
+      document.querySelectorAll(".report-summary").forEach(el => {
+        el.setAttribute("lang", lang);
       });
 
       const toggleBtn = document.getElementById("lang-toggle");
