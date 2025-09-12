@@ -254,25 +254,6 @@
   </footer>
 
 
-  <!-- 全屏预览容器 -->
-  <div id="fullscreen-viewer" class="fullscreen-viewer" style="display: none;">
-
-    <!-- 左侧箭头区域 -->
-    <div id="arrow-left" class="arrow-zone">
-      <button id="prev-btn" class="fullscreen-nav-btn">←</button>
-    </div>
-
-    <!-- 全屏图片 -->
-    <img id="fullscreen-image" src="" alt="Fullscreen Image">
-
-    <!-- 右侧箭头区域 -->
-    <div id="arrow-right" class="arrow-zone">
-      <button id="next-btn" class="fullscreen-nav-btn">→</button>
-    </div>
-
-  </div>
-
-
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
@@ -294,6 +275,23 @@
   <!-- footer JS File-->
   <script>document.getElementById("current-year").textContent = new Date().getFullYear();</script>
 
+  <!-- 全屏预览容器 -->
+  <div id="fullscreen-viewer" class="fullscreen-viewer" style="display: none;">
+
+    <!-- 左侧箭头区域 -->
+    <div id="arrow-left" class="arrow-zone">
+      <button id="prev-btn" class="fullscreen-nav-btn">←</button>
+    </div>
+
+    <!-- 全屏图片 -->
+    <img id="fullscreen-image" src="" alt="Fullscreen Image">
+
+    <!-- 右侧箭头区域 -->
+    <div id="arrow-right" class="arrow-zone">
+      <button id="next-btn" class="fullscreen-nav-btn">→</button>
+    </div>
+
+  </div>
 
 
 <!-- Project details + fullscreen viewer -->
@@ -354,11 +352,13 @@
 
     // 打开全屏预览
     function openFullscreen(src) {
-      const activeThumb = document.querySelector(".thumbnail-item.active");
-      const index = parseInt(activeThumb?.getAttribute("data-index")) || 0;
-      currentIndex = index;
+      // ✅ 保留 currentIndex，不重置为 0
+      if (typeof currentIndex !== 'number' || isNaN(currentIndex)) {
+        currentIndex = 0;
+      }
 
-      fullscreenImage.src = src;
+
+      fullscreenImage.src = imageList[currentIndex];
       fullscreenImage.style.transform = "scale(1)";
       fullscreenImage.style.width = "100%";
       fullscreenImage.style.height = "auto";
@@ -370,12 +370,45 @@
 
       updateImageIndicator();
       updateArrowLayout();
+
+       // ✅ [追加] 创建底部 < > 控制条（仅移动端，仅首次创建）
+      if (window.innerWidth <= 768 && !document.getElementById("mobile-bottom-controls")) {
+        const bar = document.createElement("div");
+        bar.id = "mobile-bottom-controls";
+        bar.innerHTML = `
+          <div class="ctrl ctrl-prev" aria-label="Previous">
+            <span class="chev" aria-hidden="true">‹</span>
+          </div>
+          <div class="ctrl ctrl-next" aria-label="Next">
+            <span class="chev" aria-hidden="true">›</span>
+          </div>
+        `;
+        viewer.appendChild(bar);
+
+        const stop = (e) => { e.stopPropagation(); e.preventDefault(); };
+
+        const prevCtrl = bar.querySelector(".ctrl-prev");
+        const nextCtrl = bar.querySelector(".ctrl-next");
+
+        prevCtrl.addEventListener("click", (e) => {
+          stop(e);
+          if (currentIndex > 0) showPrevImage();
+        });
+        nextCtrl.addEventListener("click", (e) => {
+          stop(e);
+          if (currentIndex < imageList.length - 1) showNextImage();
+        });
+      } 
+
     }
 
     // 关闭全屏预览
     function closeFullscreen() {
       viewer.style.display = 'none';
       document.body.style.overflow = '';
+
+      // ✅ 同步主图到当前索引
+      updateMainImage(currentIndex);
     }
 
     // 显示上一张（首尾限制）
@@ -474,7 +507,7 @@
     // ✅ 电脑端专属逻辑
     // -------------------------------
 
-    // 鼠标滚轮缩放
+    // 1. 鼠标滚轮缩放
     document.addEventListener("wheel", function (e) {
       if (viewer.style.display === 'flex' && window.innerWidth > 768) {
         e.preventDefault();
@@ -485,25 +518,25 @@
       }
     }, { passive: false });
 
-    // ESC 键退出
+    // 2. ESC 键退出
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && viewer.style.display === "flex") {
         closeFullscreen();
       }
     });
 
-    // 点击图片退出（电脑端）
+    // 3. 点击图片退出（电脑端）
     fullscreenImage.addEventListener("click", function () {
       if (viewer.style.display === 'flex') {
         closeFullscreen();
       }
     });
 
-    // 箭头点击事件
+    // 4. 箭头点击事件
     if (prevBtn) prevBtn.addEventListener("click", (e) => { e.stopPropagation(); showPrevImage(); });
     if (nextBtn) nextBtn.addEventListener("click", (e) => { e.stopPropagation(); showNextImage(); });
 
-    // 窗口尺寸变化时更新箭头布局
+    // 5. 窗口尺寸变化时更新箭头布局
     window.addEventListener("resize", updateArrowLayout);
 
     // -------------------------------
@@ -529,7 +562,11 @@
       const tapMoveThreshold = 20;
       const tapTimeThreshold = 300;
 
-      // 轻触退出
+      // ✅ 避免误触底部控制条050912
+      const onBottomBar = e.target.closest && e.target.closest("#mobile-bottom-controls");
+      if (onBottomBar) return;
+
+      // 1. 轻触退出
       if (Math.abs(dx) < tapMoveThreshold && Math.abs(dy) < tapMoveThreshold && dt < tapTimeThreshold) {
         if (viewer.style.display === 'flex') {
           closeFullscreen();
@@ -537,7 +574,7 @@
         }
       }
 
-      // 滑动切换（仅限图片区域，首尾限制）
+      // 2. 滑动切换（仅限图片区域，首尾限制）
       const touchedElement = document.elementFromPoint(t.screenX, t.screenY);
       if (touchedElement === fullscreenImage && Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > swipeThreshold) {
         if (dx > 0 && currentIndex > 0) {
@@ -547,6 +584,48 @@
         }
       }
     }, { passive: true });
+
+      // 3. 底部“< >”标示与点击切换（仅移动端）0912新增
+      if (window.innerWidth <= 768 && !document.getElementById("mobile-bottom-controls")) {
+        const bar = document.createElement("div");
+        bar.id = "mobile-bottom-controls";
+        bar.innerHTML = `
+          <div class="ctrl ctrl-prev" aria-label="Previous">
+            <span class="chev" aria-hidden="true">‹</span>
+          </div>
+          <div class="ctrl ctrl-next" aria-label="Next">
+            <span class="chev" aria-hidden="true">›</span>
+          </div>
+        `;
+        viewer.appendChild(bar);
+
+        // 4、防止点击穿透到 viewer 的“轻触退出”0912新增
+        const stop = (e) => { e.stopPropagation(); e.preventDefault(); };
+
+        const prevCtrl = bar.querySelector(".ctrl-prev");
+        const nextCtrl = bar.querySelector(".ctrl-next");
+
+        prevCtrl.addEventListener("click", (e) => {
+          stop(e);
+          if (currentIndex > 0) showPrevImage();
+        });
+        nextCtrl.addEventListener("click", (e) => {
+          stop(e);
+          if (currentIndex < imageList.length - 1) showNextImage();
+        });
+
+        // 5、轻触反馈（可选增强）
+        ["touchstart","pointerdown"].forEach(ev => {
+          prevCtrl.addEventListener(ev, () => prevCtrl.classList.add("active"), {passive:true});
+          nextCtrl.addEventListener(ev, () => nextCtrl.classList.add("active"), {passive:true});
+        });
+        ["touchend","pointerup","pointercancel","touchcancel","mouseleave"].forEach(ev => {
+          prevCtrl.addEventListener(ev, () => prevCtrl.classList.remove("active"), {passive:true});
+          nextCtrl.addEventListener(ev, () => nextCtrl.classList.remove("active"), {passive:true});
+        });
+      }
+      
+
   });
 </script>
 
