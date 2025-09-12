@@ -1466,6 +1466,7 @@ section,
     height: 30%;
     z-index: 9998;
     background: transparent;
+    pointer-events: none;
   }
 
   /* 底部 < > 控制条 */
@@ -1527,7 +1528,31 @@ section,
   #mobile-close-btn:active {
     background: transparent;
   }
+
+  /* 让全屏容器的触控语义明确：垂直滚动不阻断，横向手势留给你自己的逻辑 */
+  .fullscreen-viewer {
+    touch-action: pan-y;
+  }
+
+  /* 关闭按钮只响应点击，不参与滑动手势命中 */
+  #mobile-close-btn {
+    pointer-events: auto;
+    touch-action: none;
+  }
+
+  /* 包裹层作为 X 的定位参考，避免影响命中 */
+  .fullscreen-content {
+    position: relative;
+    display: inline-block;
+  }
+
+  /* 页码提示、指示性元素不拦截事件（你已在桌面处理，这里确保移动端同样生效） */
+  .image-index-indicator {
+    pointer-events: none;
+  }
+
 }
+
 
 
 /* Add your styles here */
