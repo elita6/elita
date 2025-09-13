@@ -276,10 +276,7 @@
 
   <!-- 全屏预览容器 -->
   <div id="fullscreen-viewer" class="fullscreen-viewer" style="display: none;">
-    
-    <!-- 关闭按钮 -->
-    <button id="close-btn" class="close-button">×</button>
- 
+
     <!-- 左侧箭头区域 -->
     <div id="arrow-left" class="arrow-zone">
       <button id="prev-btn" class="fullscreen-nav-btn">←</button>
@@ -739,48 +736,65 @@
 
 
 <!--移动端：双指缩放图片-->
-<script src="assets/js/ZoomImages.js"></script>
-
 <script>
   const viewer = document.getElementById('fullscreen-viewer');
   const image = document.getElementById('fullscreen-image');
-  const closeBtn = document.getElementById('close-btn');
 
-  let zoomInstance = null;
+  let startDistance = 0;
+  let currentScale = 1;
+  let startX = 0;
+  let startY = 0;
+  let translateX = 0;
+  let translateY = 0;
+  let isDragging = false;
 
-  // 打开预览并初始化 ZoomImages
-  function openFullscreen(src) {
-    image.src = src;
-    viewer.style.display = 'flex';
-
-    // 初始化拖动 + 缩放功能
-    zoomInstance = new ZoomImages(image, viewer, () => {
-      viewer.style.display = 'none';
-    });
-  }
-
-  // 关闭按钮逻辑
-  closeBtn.addEventListener('click', () => {
-    if (zoomInstance && zoomInstance.zoomOut) {
-      zoomInstance.zoomOut();
-    } else {
-      viewer.style.display = 'none';
+  viewer.addEventListener('touchstart', function (e) {
+    if (e.touches.length === 2) {
+      const dx = e.touches[0].pageX - e.touches[1].pageX;
+      const dy = e.touches[0].pageY - e.touches[1].pageY;
+      startDistance = Math.sqrt(dx * dx + dy * dy);
+    } else if (e.touches.length === 1 && currentScale > 1) {
+      isDragging = true;
+      startX = e.touches[0].pageX - translateX;
+      startY = e.touches[0].pageY - translateY;
     }
   });
 
-  // 点击作品图进入预览（绑定你的预览按钮）
-  document.querySelectorAll('.preview-link').forEach(link => {
-    link.addEventListener('click', function(e) {
+  viewer.addEventListener('touchmove', function (e) {
+    if (e.touches.length === 2) {
       e.preventDefault();
-      const src = this.getAttribute('href');
-      openFullscreen(src);
-    });
+      const dx = e.touches[0].pageX - e.touches[1].pageX;
+      const dy = e.touches[0].pageY - e.touches[1].pageY;
+      const currentDistance = Math.sqrt(dx * dx + dy * dy);
+      const scale = currentDistance / startDistance;
+
+      currentScale = Math.min(Math.max(scale, 1), 3);
+      updateTransform();
+    } else if (e.touches.length === 1 && isDragging) {
+      e.preventDefault();
+      translateX = e.touches[0].pageX - startX;
+      translateY = e.touches[0].pageY - startY;
+      updateTransform();
+    }
   });
+
+  viewer.addEventListener('touchend', function (e) {
+    if (e.touches.length === 0) {
+      isDragging = false;
+    }
+  });
+
+  function updateTransform() {
+    image.style.transform = `scale(${currentScale}) translate(${translateX}px, ${translateY}px)`;
+  }
+
+  function resetZoom() {
+    currentScale = 1;
+    translateX = 0;
+    translateY = 0;
+    image.style.transform = `scale(1) translate(0, 0)`;
+  }
 </script>
-
-
-
-
 
 
 </body>
