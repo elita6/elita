@@ -190,20 +190,28 @@
             <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-dataviz">
               <div class="portfolio-card">
                 <div class="portfolio-image">
-                  <img src="assets/img/portfolio/sales data PB.png" class="img-fluid" alt="" loading="lazy">
+                  <img src="assets/img/portfolio/sales PB.png" class="img-fluid" alt="" loading="lazy">
                   <div class="portfolio-overlay">
                     <div class="portfolio-actions">
-                      <a href="assets/img/portfolio/sales data PB.png" class="glightbox preview-link" data-gallery="portfolio-gallery-motion"><i class="bi bi-eye"></i></a>
+                      <!-- 只显示一个眼睛按钮 -->
+                      <a href="assets/img/portfolio/sales PB.png" class="glightbox preview-link" data-gallery="portfolio-gallery-motion">
+                        <i class="bi bi-eye"></i>
+                      </a>
+
+                      <!-- 隐藏的图片链接，仍属于同一个 gallery -->
+                      <a href="assets/img/portfolio/inventory PB.png" class="glightbox d-none" data-gallery="portfolio-gallery-motion"></a>
+                      <a href="assets/img/portfolio/HR PB.png" class="glightbox d-none" data-gallery="portfolio-gallery-motion"></a>
                     </div>
                   </div>
                 </div>
                 <div class="portfolio-content">
                   <span class="category" data-i18n="badge.viz">Data Visualization</span>
-                  <h3 data-i18n="project.sales.title">Sales Dashbord</h3>
+                  <h3 data-i18n="project.sales.title">Sales Dashboard</h3>
                   <p data-i18n="project.sales.desc">Storytelling created by PowerBI</p>
                 </div>
               </div>
             </div>
+
 
             <!-- Portfolio Item 4 -->
             <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-art">
@@ -426,7 +434,16 @@
         }
       });
     })();
-  </script>  
+  </script>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const lightbox = GLightbox({
+        selector: '.glightbox'
+      });
+    });
+  </script>
+
 
 </body>
 
