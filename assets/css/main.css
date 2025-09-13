@@ -1161,14 +1161,11 @@ section,
 
 
 /*--------------------------------------------------------------
-# project Details Section
---------------------------------------------------------------*/
-/*--------------------------------------------------------------
 # project Details Section 样式总览
 --------------------------------------------------------------*/
 
 /* ============================================================
-= ? 主图区域（主图容器、主图图像、缩放容器、左右切换按钮）
+= ? 主图区域（主图容器、图像、左右切换按钮）
 ============================================================ */
 .project-details .project-gallery .main-image-container {
   position: relative;
@@ -1179,23 +1176,11 @@ section,
 
 .project-details .project-gallery .main-image-container .main-project-image {
   width: 100%;
-  height: 500px;
-  object-fit: cover;
-  cursor: zoom-in;
+  height: auto;
+  object-fit: contain;
+  cursor: zoom-in; /* 鼠标提示可点击预览 */
 }
 
-.project-details .project-gallery .main-image-container .image-zoom-container {
-  position: absolute;
-  top: 0;
-  right: -100%;
-  width: 100%;
-  height: 100%;
-  background-color: var(--surface-color);
-  border: 1px solid color-mix(in srgb, var(--default-color), transparent 85%);
-  z-index: 10;
-}
-
-/* 主图左右切换按钮（非全屏） */
 .project-details .project-gallery .main-image-container .image-nav-btn {
   position: absolute;
   top: 50%;
@@ -1230,7 +1215,7 @@ section,
 }
 
 /* ============================================================
-= ? 缩略图区域（栅格布局、选中态、图片样式）
+= ? 缩略图区域（列表、选中态、图片样式）
 ============================================================ */
 .project-details .project-gallery .thumbnail-gallery {
   display: flex;
@@ -1263,76 +1248,10 @@ section,
 }
 
 /* ============================================================
-= ? 辅助布局样式（居中、滚动、自适应）
+= ? 页码提示（GLightbox弹窗底部居中）
 ============================================================ */
-.project-gallery {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.main-image-container {
-  width: 100%;
-  overflow: hidden;
-}
-
-.main-project-image {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  display: block;
-  cursor: pointer;
-}
-
-.thumbnail-gallery {
-  display: flex;
-  overflow-x: auto;
-  gap: 0.5rem;
-  padding-bottom: 1rem;
-  -webkit-overflow-scrolling: touch;
-}
-
-.thumbnail-item {
-  flex: 0 0 auto;
-  width: 80px;
-}
-
-.thumbnail-item img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  cursor: pointer;
-}
-
-/* ============================================================
-= ? 全屏预览区域（容器、图像、箭头、页码）
-============================================================ */
-.fullscreen-viewer {
+#glightbox-page-indicator {
   position: fixed;
-  inset: 0;
-  background-color: rgba(0,0,0,0.9);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  overflow: hidden;
-}
-
-.fullscreen-viewer img {
-  width: auto;
-  height: 100vh;
-  max-width: 100%;
-  object-fit: contain;
-  touch-action: manipulation;
-  transition: transform 0.2s ease;
-  cursor: pointer;
-}
-
-/* 页码提示（底部居中） */
-.image-index-indicator {
-  position: absolute;
   bottom: 1rem;
   left: 50%;
   transform: translateX(-50%);
@@ -1342,81 +1261,17 @@ section,
   padding: 0.3rem 0.6rem;
   border-radius: 6px;
   pointer-events: none;
-}
-
-/* 左右箭头容器与按钮 */
-.arrow-zone {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
-  z-index: 10000;
-}
-
-#arrow-left {
-  left: 1rem;
-}
-
-#arrow-right {
-  right: 1rem;
-}
-
-.fullscreen-nav-btn {
-  pointer-events: auto;
-  background: rgba(0,0,0,0.25);
-  color: #fff;
-  border: none;
-  font-size: 2rem;
-  padding: 0.4rem 0.8rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background .15s ease;
-}
-
-.fullscreen-nav-btn:hover {
-  background: rgba(0,0,0,0.35);
+  z-index: 9999;
 }
 
 /* ============================================================
-= ? 电脑端专属样式（兼容旧结构）
-============================================================ */
-@media (min-width: 769px) {
-  .fullscreen-nav-btn {
-    background: rgba(255,255,255,0.2);
-    border: none;
-    color: white;
-    font-size: 2rem;
-    padding: 0.5rem 1rem;
-    z-index: 10000;
-  }
-}
-
-/* ============================================================
-= ? 移动端专属样式（统一 @media 块）
+= ? 响应式调整（移动端主图高度、缩略图尺寸）
 ============================================================ */
 @media (max-width: 768px) {
-  /* 隐藏主图右侧缩放容器 */
-  .project-details .project-gallery .main-image-container .image-zoom-container {
-    display: none;
-  }
-
-  /* 概览区布局调整 */
-  .project-details .project-overview {
-    position: static !important;
-    top: auto !important;
-    margin-top: 30px;
-  }
-
-  .project-details .project-overview .project-stats {
-    grid-template-columns: 1fr;
-  }
-
-  /* 主图高度缩小 */
   .project-details .project-gallery .main-image-container .main-project-image {
     height: 300px;
   }
 
-  /* 缩略图尺寸缩小 */
   .project-details .project-gallery .thumbnail-gallery .thumbnail-item {
     min-width: 80px;
   }
@@ -1424,135 +1279,19 @@ section,
   .project-details .project-gallery .thumbnail-gallery .thumbnail-item img {
     height: 60px;
   }
-
-  /* 容器最大宽度适配 */
-  .container {
-    max-width: 100%;
-    padding: 0 1rem;
-  }
-
-  /* 隐藏桌面控件 */
-  .fullscreen-desktop-controls {
-    display: none !important;
-  }
-
-  /* 主图完整显示 */
-  .project-details .project-gallery .main-image-container {
-    height: auto !important;
-    max-height: none !important;
-    overflow: visible !important;
-  }
-
-  .project-details .project-gallery .main-image-container .main-project-image,
-  #main-product-image {
-    width: 100% !important;
-    height: auto !important;
-    max-height: 85dvh;
-    object-fit: contain !important;
-    display: block !important;
-  }
-
-  /* 隐藏左右箭头容器 */
-  #arrow-left, #arrow-right {
-    display: none !important;
-  }
-
-  /* 底部点击区域（用于滑动） */
-  #mobile-click-zone {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 30%;
-    z-index: 9998;
-    background: transparent;
-    pointer-events: none;
-  }
-
-  /* 底部 < > 控制条 */
-  #mobile-bottom-controls {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 56px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    z-index: 10002;
-    background: rgba(0,0,0,0.35);
-    backdrop-filter: blur(6px);
-    user-select: none;
-  }
-
-  #mobile-bottom-controls .ctrl {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-    touch-action: manipulation;
-  }
-
-  #mobile-bottom-controls .ctrl:active {
-    background: transparent;
-  }
-
-  /* 页码提示位置上移，避免被底部控件遮挡 */
-  .image-index-indicator {
-    bottom: 3.6rem;
-    z-index: 10003;
-  }
-
-  /* 移动端右上角关闭按钮 */
-  #mobile-close-btn {
-    position: absolute;
-    top: 1rem;
-    right: 0.5rem;
-    z-index: 10004;
-    font-size: 2rem;
-    color: #fff;
-    padding: 0.4rem 0.8rem;
-    border-radius: 6px;
-    cursor: pointer;
-    user-select: none;
-    backdrop-filter: blur(4px);
-
-    /* 清除默认背景样式 */
-    background: none !important;
-    box-shadow: none !important;
-    border: none !important;
-  }
-
-  #mobile-close-btn:active {
-    background: transparent;
-  }
-
-  /* 让全屏容器的触控语义明确：垂直滚动不阻断，横向手势留给你自己的逻辑 */
-  .fullscreen-viewer {
-    touch-action: pan-y;
-  }
-
-  /* 关闭按钮只响应点击，不参与滑动手势命中 */
-  #mobile-close-btn {
-    pointer-events: auto;
-    touch-action: none;
-  }
-
-  /* 包裹层作为 X 的定位参考，避免影响命中 */
-  .fullscreen-content {
-    position: relative;
-    display: inline-block;
-  }
-
-  /* 页码提示、指示性元素不拦截事件（你已在桌面处理，这里确保移动端同样生效） */
-  .image-index-indicator {
-    pointer-events: none;
-  }
-
 }
 
+/* ============================================================
+= ? 页码格式
+============================================================ */
+.gslide-title {
+  background: transparent !important;
+  color: #333;
+  font-size: 0.8rem;
+  text-align: center;
+  font-weight: normal;
+  margin-top: 1rem;
+}
 
 
 /* Add your styles here */
@@ -1590,22 +1329,4 @@ section,
 #fullscreen-image {
   transition: transform 0.2s ease;
   transform-origin: center center;
-}
-
-
-
-
-.image-index-indicator {
-  position: fixed;
-  bottom: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 1rem;
-  color: #fff;
-  background: rgba(0, 0, 0, 0.4);
-  padding: 0.3rem 0.6rem;
-  border-radius: 4px;
-  pointer-events: none;
-  user-select: none;
-  z-index: 9999;
 }
