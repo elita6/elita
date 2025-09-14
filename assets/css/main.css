@@ -1215,17 +1215,19 @@ section,
 }
 
 /* ============================================================
-= ? 缩略图区域（列表、选中态、图片样式）
+= ? 缩略图区域（栅格布局 + 横向滚动）
 ============================================================ */
 .project-details .project-gallery .thumbnail-gallery {
   display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+  overflow-x: auto;
+  gap: 0.5rem;
+  padding-bottom: 1rem;
+  -webkit-overflow-scrolling: touch;
 }
 
 .project-details .project-gallery .thumbnail-gallery .thumbnail-item {
-  flex: 1;
-  min-width: 100px;
+  flex: 0 0 auto;
+  width: 100px;
   border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
@@ -1243,7 +1245,7 @@ section,
 
 .project-details .project-gallery .thumbnail-gallery .thumbnail-item img {
   width: 100%;
-  height: 80px;
+  height: contain;
   object-fit: cover;
 }
 
@@ -1293,6 +1295,13 @@ section,
   margin-top: 1rem;
 }
 
+/* ? 让 GLightbox 支持触控滑动（兼容模拟环境） */
+.glightbox-container {
+  touch-action: pan-y;
+  -ms-touch-action: pan-y;
+}
+
+
 
 /* Add your styles here */
 
@@ -1318,15 +1327,4 @@ section,
   padding-right: 1.2rem;
   max-width: 680px;              /* ? 控制最大宽度，保持整齐 */
   word-break: break-word;
-}
-
-/* project-双指缩放手机端图片 */
-#fullscreen-viewer {
-  overflow: hidden;
-  touch-action: none; /* 禁止默认手势行为 */
-}
-
-#fullscreen-image {
-  transition: transform 0.2s ease;
-  transform-origin: center center;
 }

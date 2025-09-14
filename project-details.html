@@ -100,7 +100,7 @@
             <div class="project-gallery" data-aos="fade-up" data-aos-delay="200">
               <div class="main-image-container">
                 <!-- 主图包裹在 GLightbox 链接中 -->
-                <a href="assets/img/slides/slide1.PNG" class="glightbox preview-link" data-gallery="slide35" id="main-image-link">
+                <a href="assets/img/slides/slide1.PNG" class="preview-link" id="main-image-link">
                   <img
                     id="main-product-image"
                     src="assets/img/slides/slide1.PNG"
@@ -158,8 +158,9 @@
               </div>
 
 
-              <!-- 缩略图列表slide1-slide35-->
-              <div class="thumbnail-gallery thumbnail-list">
+              <!-- 缩略图区域 -->
+              <div class="thumbnail-gallery">
+                <!-- 缩略图列表slide1-slide35-->
                 <div class="thumbnail-item active" data-image="assets/img/slides/slide1.PNG" data-index="0">
                   <img src="assets/img/slides/slide1.PNG" alt="Slide 1" class="img-fluid">
                 </div>
@@ -266,6 +267,7 @@
                   <img src="assets/img/slides/slide35.PNG" alt="Slide 35" class="img-fluid">
                 </div>
               </div>
+
             </div><!-- End project Gallery -->
          
           </div>
@@ -316,19 +318,9 @@
   <!-- footer JS File-->
   <script>document.getElementById("current-year").textContent = new Date().getFullYear();</script>
   
-
   <!--project-details JS File-->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      // ✅ 初始化 GLightbox（使用 data-title 显示页码）
-      GLightbox({
-        selector: '.glightbox',
-        touchNavigation: true,
-        loop: true,
-        zoomable: false
-      });
-
-      // ✅ 主图切换逻辑（保留你原来的部分）
       const thumbnails = Array.from(document.querySelectorAll(".thumbnail-item"));
       const mainImage = document.getElementById("main-product-image");
       const mainLink = document.getElementById("main-image-link");
@@ -336,24 +328,67 @@
       let currentIndex = thumbnails.findIndex(item => item.classList.contains("active"));
       if (currentIndex < 0) currentIndex = 0;
 
+      // ✅ 初始化 GLightbox（保留缩放和滑动功能）
+      const lightbox = GLightbox({
+        selector: '.glightbox',
+        touchNavigation: true,
+        loop: true,
+        zoomable: true // ✅ 确保缩放开启
+      });
+
+      // ✅ 更新主图 + 高亮缩略图 + 页码 + 进度条
       function updateMainImage(index) {
+        if (index < 0 || index >= thumbnails.length) return; // ✅ 索引越界保护
+
         const target = thumbnails[index];
+        if (!target) return; // ✅ 元素不存在保护
+
         const newSrc = target.getAttribute("data-image");
-        const newAlt = target.querySelector("img").getAttribute("alt");
+        const newAlt = target.querySelector("img")?.getAttribute("alt");
 
-        mainImage.src = newSrc;
-        mainImage.alt = newAlt;
-        mainLink.href = newSrc;
+        if (mainImage && newSrc) {
+          mainImage.src = newSrc;
+          mainImage.alt = newAlt || "";
+        }
 
-        thumbnails.forEach(item => item.classList.remove("active"));
+        if (mainLink && newSrc) {
+          mainLink.href = newSrc;
+        }
+
+        // ✅ 缩略图高亮逻辑（安全处理）
+        thumbnails.forEach(item => item?.classList?.remove("active"));
         target.classList.add("active");
+
+        // ✅ 页码更新
+        const pageIndicator = document.getElementById("image-page-indicator");
+        if (pageIndicator) {
+          pageIndicator.textContent = `${index + 1} / ${thumbnails.length}`;
+        }
+
+        // ✅ 进度条更新
+        const progressBar = document.getElementById("image-progress-bar");
+        if (progressBar) {
+          const percent = ((index + 1) / thumbnails.length) * 100;
+          progressBar.style.width = `${percent}%`;
+        }
+
         currentIndex = index;
       }
 
+      // ✅ 点击主图打开 GLightbox，从当前页开始
+      if (mainLink) {
+        mainLink.addEventListener("click", function (e) {
+          e.preventDefault();
+          lightbox.openAt(currentIndex);
+        });
+      }
+
+      // ✅ 缩略图点击切换主图
       thumbnails.forEach((item, index) => {
         item.addEventListener("click", () => updateMainImage(index));
       });
 
+      // ✅ 左右按钮切换
       const prevThumbBtn = document.querySelector(".prev-image");
       const nextThumbBtn = document.querySelector(".next-image");
 
@@ -370,13 +405,23 @@
           updateMainImage(newIndex);
         });
       }
+
+      // ✅ GLightbox 切换页时同步主图和缩略图
+      lightbox.on("slide_changed", ({ current }) => {
+        if (current && typeof current.index === "number") {
+          updateMainImage(current.index);
+        }
+      });
+
+      // ✅ GLightbox 关闭时也同步主图
+      lightbox.on("close", () => {
+        updateMainImage(currentIndex);
+      });
+
+      // ✅ 初始化时更新一次
+      updateMainImage(currentIndex);
     });
   </script>
-
-
-
-
-
 
 
 
