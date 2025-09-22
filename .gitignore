@@ -1,4 +1,2 @@
 sync-to-github.ps1
 run-sync.bat
-git_ssh_sync.bat
-.cnb.yml
