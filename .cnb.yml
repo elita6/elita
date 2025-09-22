@@ -1,6 +1,0 @@
-build:
-  command: echo "静态网站不需要构建"
-  output: .
-deploy:
-  type: static
-  entry: index.html
