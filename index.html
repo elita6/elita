@@ -1,47 +1,58 @@
 <!DOCTYPE html>
+<!--
+  File: new/index.html
+  Updated: 260515
+  Purpose: Prototype redesign — 2-section layout (Home + Portfolio), AI stack inline in Hero.
+  Notes: Assets resolved via assets/...; production site at /index.html untouched.
+-->
 <html lang="en">
 
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <meta name="description" content="">
-  <meta name="keywords" content="">
+  <meta name="description" content="Elita Zheng — Business Analyst & AI Automation Builder">
+  <title>Elita Zheng — Portfolio</title>
 
-  <!-- Favicons -->
+  <!-- Always land on Hero: disable scroll restoration + strip any hash before main.js fires -->
+  <script>
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    // Clear hash on initial load so main.js's hash-scroll handler doesn't auto-scroll.
+    // (Hero's "View My Work" link adds #portfolio to URL; refresh would otherwise stick there.)
+    if (window.location.hash) {
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+    window.addEventListener('load', () => window.scrollTo(0, 0));
+  </script>
+
   <link href="assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-  <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Noto+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Questrial:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700&family=Noto+Sans+SC:wght@400;500;700&family=Questrial&display=swap" rel="stylesheet">
 
-  <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
-  <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
+  <link href="assets/css/prototype.css" rel="stylesheet">
 
-  <!-- =======================================================
-  * Template Name: EasyFolio
-  * Template URL: https://bootstrapmade.com/easyfolio-bootstrap-portfolio-template/
-  * Updated: Feb 21 2025 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+  <style>
+    .font-en { font-family: 'Roboto', sans-serif; }
+    .font-zh { font-family: 'Noto Sans SC', sans-serif; }
+  </style>
 </head>
 
-<body class="index-page font-en"> <!-- 默认英文字体类 -->
+<body class="index-page font-en">
 
-  <!-- ✅ 导航 -->
+  <!-- Header -->
   <header class="header d-flex align-items-center sticky-top">
     <div class="header-container container-fluid container-xl d-flex align-items-center justify-content-between">
 
-      <!-- 左侧 Logo + LinkedIn -->
       <div class="logo d-flex align-items-center">
         <a href="index.html" class="d-flex align-items-center">
           <h1 class="sitename me-2">Elita</h1>
@@ -51,37 +62,32 @@
         </a>
       </div>
 
-      <!-- 中间导航菜单（含汉堡按钮） -->
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="index.html" class="active" data-i18n="nav.home">Home</a></li>
-          <li><a href="index.html#portfolio" data-i18n="nav.portfolio">Portfolio</a></li>
+          <li><a href="#hero" class="active" data-i18n="nav.home">Home</a></li>
+          <li><a href="#portfolio" data-i18n="nav.portfolio">Portfolio</a></li>
         </ul>
-        <!-- 汉堡按钮：移动端显示 -->
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
 
-      <!-- 右侧语言切换按钮 -->
-      <button id="lang-toggle" type="button" class="btn btn-sm btn-outline-secondary ms-3" aria-label="切换语言">中文</button>
+      <button id="lang-toggle" type="button" class="btn btn-sm btn-outline-secondary ms-3" aria-label="Toggle Language">中文</button>
 
     </div>
   </header>
 
   <main class="main">
 
-    <!-- Hero Section -->
+    <!-- ===== Hero Section ===== -->
     <section id="hero" class="hero section">
-
       <div class="container" data-aos="fade-up" data-aos-delay="100">
-
         <div class="row align-items-center content">
+
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
             <h2 data-i18n="hero.name">Elita Zheng</h2>
-            <p class="lead" data-i18n="hero.title">Business Analyst, ​​Productivity Enhancer​</p>
+            <p class="lead" data-i18n="hero.title">AI Automation Builder · Productivity Enhancer</p>
 
             <div class="cta-buttons" data-aos="fade-up" data-aos-delay="300">
               <a href="#portfolio" class="btn btn-primary" data-i18n="hero.cta">View My Work</a>
-              <!-- <a href="#contact" class="btn btn-outline">Let's Connect</a> -->
             </div>
 
             <div class="hero-stats" data-aos="fade-up" data-aos-delay="400">
@@ -90,20 +96,21 @@
                 <span class="stat-label" data-i18n="hero.experience">Years Experience</span>
               </div>
               <div class="stat-item">
-                <span class="stat-number">30+</span>
-                <span class="stat-label" data-i18n="hero.projects">Projects Involved</span>
+                <span class="stat-number">6+</span>
+                <span class="stat-label" data-i18n="hero.ai_projects">AI / Automation Projects</span>
               </div>
               <div class="stat-item">
-                <span class="stat-number">70+</span>
-                <span class="stat-label" data-i18n="hero.reports">Reports Completed</span>
+                <span class="stat-number">10&times;</span>
+                <span class="stat-label" data-i18n="hero.speedup">Faster Workflows</span>
               </div>
             </div>
+
           </div>
 
           <div class="col-lg-6">
             <div class="hero-image">
-              <img src="assets/img/profile/pro2-removebg-preview.png"
-                   alt="Portfolio Hero Image"
+              <img src="assets/img/profile/PM.png"
+                   alt="Elita Zheng working with laptop"
                    data-i18n="hero.image"
                    data-i18n-attr="alt"
                    class="img-fluid"
@@ -113,16 +120,46 @@
               <div class="shape-2"></div>
             </div>
           </div>
+
+        </div>
+
+        <!-- AI capability cards (full-width row under Hero) -->
+        <div class="ai-stack row g-4" data-aos="fade-up" data-aos-delay="500">
+          <div class="col-lg-4 col-md-6">
+            <div class="ai-cap-card variant-orange">
+              <div class="ai-cap-icon"><i class="bi bi-robot"></i></div>
+              <div class="ai-cap-text">
+                <div class="ai-cap-title" data-i18n="stack.llm">AI Agent & LLM</div>
+                <div class="ai-cap-tools">Claude Code · Gemini · GLM</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="ai-cap-card variant-blue">
+              <div class="ai-cap-icon"><i class="bi bi-gear-wide-connected"></i></div>
+              <div class="ai-cap-text">
+                <div class="ai-cap-title" data-i18n="stack.pipe">Automation Pipeline</div>
+                <div class="ai-cap-tools">Python · n8n · Feishu API</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="ai-cap-card variant-purple">
+              <div class="ai-cap-icon"><i class="bi bi-bar-chart-fill"></i></div>
+              <div class="ai-cap-text">
+                <div class="ai-cap-title" data-i18n="stack.viz">Data Visualization</div>
+                <div class="ai-cap-tools">Power BI · Streamlit · pandas</div>
+              </div>
+            </div>
+          </div>
         </div>
 
       </div>
+    </section>
 
-    </section><!-- /Hero Section -->
-
-    <!-- Portfolio Section -->
+    <!-- ===== Portfolio Section ===== -->
     <section id="portfolio" class="portfolio section">
 
-      <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
         <h2 data-i18n="section.portfolio">Portfolio</h2>
         <div class="title-shape">
@@ -130,26 +167,145 @@
             <path d="M 0,10 C 40,0 60,20 100,10 C 140,0 160,20 200,10" fill="none" stroke="currentColor" stroke-width="2"></path>
           </svg>
         </div>
-      </div><!-- End Section Title -->
+      </div>
 
       <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-        <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
+        <div class="isotope-layout" data-default-filter="*" data-layout="fitRows" data-sort="original-order">
 
           <div class="portfolio-filters-container" data-aos="fade-up" data-aos-delay="200">
             <ul class="portfolio-filters isotope-filters">
-              <li data-filter="*" class="filter-active" data-i18n="filter.all">All Work</li>
-              <li data-filter=".filter-report" data-i18n="filter.report">Report</li>
-              <li data-filter=".filter-project" data-i18n="filter.project">Project</li>
-              <li data-filter=".filter-dataviz" data-i18n="filter.viz">Data Visualization</li>
-              <li data-filter=".filter-art" data-i18n="filter.article">Article</li>
+              <li data-filter="*" class="filter-active" data-i18n="filter.all">All</li>
+              <li data-filter=".filter-ai" data-i18n="filter.ai">AI & Automation</li>
+              <li data-filter=".filter-analysis" data-i18n="filter.analysis">Business Analysis</li>
             </ul>
           </div>
 
           <div class="row g-4 isotope-container" data-aos="fade-up" data-aos-delay="300">
 
-            <!-- Portfolio Item 1 -->
-            <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-report">
+            <!-- Item 1: Amazon Ranking Demo (FEATURED, full-width, with iframe) -->
+            <div class="col-12 portfolio-item isotope-item filter-ai">
+              <div class="portfolio-card featured">
+                <div class="demo-frame-wrap">
+                  <div class="demo-loading-hint" id="demo-loading-hint">
+                    <div class="spinner"></div>
+                    <div data-i18n="demo.loading">First load ~30s (cold start)</div>
+                  </div>
+                  <iframe
+                    src="https://amazon-rank-demo-elita.streamlit.app/?embed=true"
+                    title="Amazon Ranking Analysis Demo"
+                    loading="lazy"
+                    tabindex="-1"
+                    onload="document.getElementById('demo-loading-hint').style.display='none'"
+                    allow="fullscreen"></iframe>
+                </div>
+                <div class="portfolio-content">
+                  <span class="category" data-i18n="badge.ai">AI & Automation</span>
+                  <h3 data-i18n="proj.demo.title">Amazon Ranking Analysis</h3>
+                  <p data-i18n="proj.demo.desc">Data across 3 Amazon rank lists × 19 categories. Multi-dimensional scoring + actionable playbook recommendations.</p>
+                  <a href="https://amazon-rank-demo-elita.streamlit.app/" target="_blank" rel="noopener" class="btn btn-primary mt-2" style="width:fit-content;">
+                    <i class="bi bi-box-arrow-up-right me-1"></i><span data-i18n="demo.open">Open Full Demo</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Item 2: Amazon Scraper (AI) -->
+            <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-ai">
+              <div class="portfolio-card scraper-card">
+                <div class="portfolio-image" style="padding:0;">
+                  <div class="scraper-flow">
+                    <span class="scraper-schedule">
+                      <span class="pulse-dot"></span>
+                      <span data-i18n="scraper.schedule">Daily auto-run</span>
+                    </span>
+                    <div class="scraper-track">
+                      <div class="scraper-step">
+                        <div class="step-icon-box"><i class="bi bi-table"></i></div>
+                        <div class="step-label" data-i18n="scraper.s1">Read ASIN</div>
+                        <div class="step-sub">Feishu Bitable</div>
+                      </div>
+                      <div class="scraper-step">
+                        <div class="step-icon-box"><i class="bi bi-browser-chrome"></i></div>
+                        <div class="step-label" data-i18n="scraper.s2">Scrape Page</div>
+                        <div class="step-sub">Selenium · HTML</div>
+                      </div>
+                      <div class="scraper-step">
+                        <div class="step-icon-box"><i class="bi bi-cloud-arrow-up"></i></div>
+                        <div class="step-label" data-i18n="scraper.s3">Write-back</div>
+                        <div class="step-sub">price · BSR · ★</div>
+                      </div>
+                      <div class="scraper-step">
+                        <div class="step-icon-box"><i class="bi bi-stars"></i></div>
+                        <div class="step-label" data-i18n="scraper.s4">AI Insight</div>
+                        <div class="step-sub">LLM API</div>
+                      </div>
+                    </div>
+                    <i class="bi bi-robot scraper-bot" aria-hidden="true"></i>
+
+                    <div class="scraper-log" aria-hidden="true">
+                      <div class="log-line"><span class="log-time">[16:00:00]</span> <span class="log-info">INFO:</span> Task scheduler triggered 'run.bat' successfully.</div>
+                      <div class="log-line"><span class="log-time">[16:00:02]</span> <span class="log-info">INFO:</span> main_pipeline.py started. Fetching ASINs from Feishu Bitable...</div>
+                      <div class="log-line"><span class="log-time">[16:00:05]</span> <span class="log-info">INFO:</span> 120 ASINs loaded. Launching Selenium webdriver...</div>
+                      <div class="log-line"><span class="log-time">[16:15:30]</span> <span class="log-info">INFO:</span> Data parsing completed. 58 fields extracted per product.</div>
+                      <div class="log-line"><span class="log-time">[16:15:35]</span> <span class="log-info">INFO:</span> Bulk write-back to Feishu Bitable successful.</div>
+                      <div class="log-line"><span class="log-time">[16:15:40]</span> <span class="log-ai">AI_AGENT:</span> LLM API invoked for market insight generation...</div>
+                      <div class="log-line"><span class="log-time">[16:16:10]</span> <span class="log-notify">NOTIFY:</span> Feishu Webhook triggered. Daily report</div>
+                    </div>
+
+                    <div class="scraper-outputs-label" data-i18n="scraper.outputs">Delivered to Feishu</div>
+                    <div class="scraper-outputs">
+                      <a class="scraper-output glightbox"
+                         href="assets/img/portfolio/feishu-dashboards.png"
+                         data-gallery="scraper-outputs"
+                         data-title="Feishu Bitable — AI insight dashboard (word cloud + LLM-generated review/strategy)">
+                        <i class="bi bi-clipboard-data output-icon"></i>
+                        <span data-i18n="scraper.out.dash">Dashboard</span>
+                        <i class="bi bi-arrow-right output-arrow"></i>
+                      </a>
+                      <a class="scraper-output glightbox"
+                         href="assets/img/portfolio/feishu-mes.png"
+                         data-gallery="scraper-outputs">
+                        <i class="bi bi-bell output-icon"></i>
+                        <span data-i18n="scraper.out.bot">Feishu Notice</span>
+                        <i class="bi bi-arrow-right output-arrow"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="portfolio-content">
+                  <span class="category" data-i18n="badge.ai">AI & Automation</span>
+                  <h3 data-i18n="proj.scraper.title">Amazon Product Auto-Sync</h3>
+                  <p data-i18n="proj.scraper.desc">Data collection · analysis · sync — closed-loop automation.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Item 3: Power BI Dashboards (Analysis) -->
+            <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-analysis">
+              <div class="portfolio-card">
+                <div class="portfolio-image">
+                  <img src="assets/img/portfolio/sales PB.png" class="img-fluid" alt="" loading="lazy">
+                  <div class="portfolio-overlay">
+                    <div class="portfolio-actions">
+                      <a href="assets/img/portfolio/sales PB.png" class="glightbox preview-link" data-gallery="pb-gallery" data-title="1 / 3">
+                        <i class="bi bi-eye"></i>
+                      </a>
+                      <a href="assets/img/portfolio/inventory PB.png" class="glightbox d-none" data-gallery="pb-gallery" data-title="2 / 3"></a>
+                      <a href="assets/img/portfolio/HR PB.png" class="glightbox d-none" data-gallery="pb-gallery" data-title="3 / 3"></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="portfolio-content">
+                  <span class="category" data-i18n="badge.analysis">Business Analysis</span>
+                  <h3 data-i18n="proj.pb.title">Power BI Dashboards</h3>
+                  <p data-i18n="proj.pb.desc">Sales / Inventory / HR storytelling dashboards built with Power BI.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Item 4: Consumption Analysis (Analysis) -->
+            <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-analysis">
               <div class="portfolio-card">
                 <div class="portfolio-image">
                   <img src="assets/img/portfolio/report1.jpg" class="img-fluid" alt="" loading="lazy">
@@ -160,237 +316,166 @@
                   </div>
                 </div>
                 <div class="portfolio-content">
-                  <span class="category" data-i18n="badge.report">Report</span>
-                  <h3 data-i18n="project.consumption.title">Comsumption Analysis</h3>
-                  <p data-i18n="project.consumption.desc">Bubble Tea, Coffee, Snack Shops, and Prepared Dishes Industry Analysis</p>
+                  <span class="category" data-i18n="badge.analysis">Business Analysis</span>
+                  <h3 data-i18n="proj.consumption.title">Consumption Industry Analysis 2024</h3>
+                  <p data-i18n="proj.consumption.desc">Bubble tea, coffee, snack shops, and prepared dishes — channel structure, brand competition, and Top-SKU dynamics.</p>
                 </div>
               </div>
             </div>
 
-            <!-- Portfolio Item 2 -->
-            <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-project">
-              <div class="portfolio-card">
-                <div class="portfolio-image">
-                  <img src="assets/img/portfolio/milkpower.jpg" class="img-fluid" alt="" loading="lazy">
-                  <div class="portfolio-overlay">
-                    <div class="portfolio-actions">
-                      <a href="https://www.jianshu.com/p/741c081de6bc" class="details-link"><i class="bi bi-arrow-right"></i></a>
-                    </div>
-                  </div>
-                </div>
-                <div class="portfolio-content">
-                  <span class="category" data-i18n="badge.project">Project</span>
-                  <h3 data-i18n="project.milk.title">Online Baby Milk Analysis</h3>
-                  <p data-i18n="project.milk.desc">Personal project for cabability improving</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Portfolio Item 3 -->
-            <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-dataviz">
-              <div class="portfolio-card">
-                <div class="portfolio-image">
-                  <img src="assets/img/portfolio/sales PB.png" class="img-fluid" alt="" loading="lazy">
-                  <div class="portfolio-overlay">
-                    <div class="portfolio-actions">
-                      <!-- 只显示一个眼睛按钮 -->
-                      <a href="assets/img/portfolio/sales PB.png" class="glightbox preview-link" data-gallery="portfolio-gallery-motion" data-title="1 / 3">
-                        <i class="bi bi-eye"></i>
-                      </a>
-
-                      <!-- 隐藏的图片链接，仍属于同一个 gallery -->
-                      <a href="assets/img/portfolio/inventory PB.png" class="glightbox d-none" data-gallery="portfolio-gallery-motion" data-title="2 / 3"></a>
-                      <a href="assets/img/portfolio/HR PB.png" class="glightbox d-none" data-gallery="portfolio-gallery-motion" data-title="3 / 3"></a>
-                    </div>
-                  </div>
-                </div>
-                <div class="portfolio-content">
-                  <span class="category" data-i18n="badge.viz">Data Visualization</span>
-                  <h3 data-i18n="project.sales.title">Dashboards</h3>
-                  <p data-i18n="project.sales.desc">Storytelling created by PowerBI</p>
-                </div>
-              </div>
-            </div>
-
-
-            <!-- Portfolio Item 4 -->
-            <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-art">
-              <div class="portfolio-card">
-                <div class="portfolio-image">
-                  <img src="assets/img/portfolio/article.jpg" class="img-fluid" alt="" loading="lazy">
-                  <div class="portfolio-overlay">
-                    <div class="portfolio-actions">
-                      <a href="https://mp.weixin.qq.com/s/jqfsi-ILqZTsmx1fsnhOMQ" class="details-link"><i class="bi bi-arrow-right"></i></a>
-                    </div>
-                  </div>
-                </div>
-                <div class="portfolio-content">
-                  <span class="category" data-i18n="badge.article">Article</span>
-                  <h3 data-i18n="project.livestream.title">Cross-border E-commerce Focus</h3>
-                  <p data-i18n="project.livestream.desc">Previous work example</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Portfolio Item 5 -->
-            <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-report">
+            <!-- Item 5: E-commerce Analysis (Analysis) -->
+            <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-analysis">
               <div class="portfolio-card">
                 <div class="portfolio-image">
                   <img src="assets/img/portfolio/report2.jpg" class="img-fluid" alt="" loading="lazy">
                   <div class="portfolio-overlay">
                     <div class="portfolio-actions">
-                      <a href="https://mp.weixin.qq.com/s/FFIWmiSDibpUg3hGv9wQ5g" class="details-link"><i class="bi bi-arrow-right"></i></a>
+                      <a href="https://mp.weixin.qq.com/s/FFIWmiSDibpUg3hGv9wQ5g" target="_blank" rel="noopener" class="details-link"><i class="bi bi-arrow-right"></i></a>
                     </div>
                   </div>
                 </div>
                 <div class="portfolio-content">
-                  <span class="category" data-i18n="badge.report">Report</span>
-                  <h3 data-i18n="project.ecommerce.title">E-commerce Analysis</h3>
-                  <p data-i18n="project.ecommerce.desc">Previous work example</p>
+                  <span class="category" data-i18n="badge.analysis">Business Analysis</span>
+                  <h3 data-i18n="proj.ecommerce.title">E-commerce Industry Analysis</h3>
+                  <p data-i18n="proj.ecommerce.desc">Cross-category e-commerce report — channel mix, brand competition, and category dynamics. Published on WeChat.</p>
                 </div>
               </div>
             </div>
 
-            <!-- Portfolio Item 6 -->
-            <div class="col-lg-6 col-md-6 portfolio-item isotope-item filter-project">
-              <div class="portfolio-card">
-                <div class="portfolio-image">
-                  <img src="assets/img/portfolio/xiaohongshu.jpg" class="img-fluid" alt="" loading="lazy">
-                  <div class="portfolio-overlay">
-                    <div class="portfolio-actions">
-                      <a href="https://www.jianshu.com/p/7075d0366913" class="details-link"><i class="bi bi-arrow-right"></i></a>
-                    </div>
-                  </div>
-                </div>
-                <div class="portfolio-content">
-                  <span class="category" data-i18n="badge.project">Project</span>
-                  <h3 data-i18n="project.xhs.title">Xiaohongshu User Analysis</h3>
-                  <p data-i18n="project.xhs.desc">Personal project for cabability improving</p>
-                </div>
-              </div>
-            </div>
-
-          </div><!-- End Portfolio Container -->
-
+          </div>
         </div>
 
       </div>
+    </section>
 
-    </section><!-- /Portfolio Section -->
+  </main>
 
-    <footer id="footer" class="footer">
+  <footer id="footer" class="footer">
     <div class="container">
-        <div class="copyright text-center">
+      <div class="copyright text-center">
         <p>
-            &copy; <span id="current-year"></span>
-            <strong style="color: #000;">Elita</strong>
-            <span data-i18n="footer.rights" style="color: #000;">All rights reserved.</span>
+          &copy; <span id="current-year"></span>
+          <strong style="color: #000;">Elita</strong>
+          <span data-i18n="footer.rights" style="color: #000;">All rights reserved.</span>
         </p>
-        <!--<p>
-            <span data-i18n="footer.credit" style="color: #000;">Designed by</span>
-            <span style="color: #000;">BootstrapMade</span>
-        </p>-->
-        </div>
+      </div>
     </div>
-    </footer>
+  </footer>
 
-
-  <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-  <!-- Vendor JS Files -->
+  <!-- Vendor JS -->
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
   <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
   <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
 
-  <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
 
-  <!-- footer JS File-->
   <script>document.getElementById("current-year").textContent = new Date().getFullYear();</script>
 
-  <!-- Language dic -->
+  <!-- i18n dictionary -->
   <script>
     const I18N = {
       en: {
         "nav.home": "Home",
         "nav.portfolio": "Portfolio",
         "hero.name": "Elita Zheng",
-        "hero.title": "Business Analyst, ​​Productivity Enhancer​",
+        "hero.title": "AI Automation Builder · Productivity Enhancer",
         "hero.cta": "View My Work",
         "hero.experience": "Years Experience",
-        "hero.projects": "Projects Involved",
-        "hero.reports": "Reports Completed",
-        "hero.image": "Portfolio Hero Image",
+        "hero.ai_projects": "AI / Automation Projects",
+        "hero.speedup": "Faster Workflows",
+        "hero.image": "Elita Zheng portrait",
+
+        "stack.llm": "AI Agent & LLM",
+        "stack.pipe": "Automation Pipeline",
+        "stack.viz": "Data Visualization",
+
         "section.portfolio": "Portfolio",
-        "filter.all": "All Work",
-        "filter.report": "Report",
-        "filter.project": "Project",
-        "filter.viz": "Data Visualization",
-        "filter.article": "Article",
-        "badge.report": "Report",
-        "badge.project": "Project",
-        "badge.viz": "Data Visualization",
-        "badge.article": "Article",
-        "project.consumption.title": "Comsumption Analysis",
-        "project.consumption.desc": "Bubble Tea, Coffee, Snack Shops, and Prepared Dishes Industry Analysis",
-        "project.milk.title": "Online Baby Milk Analysis",
-        "project.milk.desc": "Personal project: use python and Excel for data analysis",
-        "project.sales.title": "Dashbords",
-        "project.sales.desc": "Storytelling created by PowerBI",
-        "project.livestream.title": "Cross-border E-commerce Focus",
-        "project.livestream.desc": "Previous work example",
-        "project.ecommerce.title": "E-commerce Analysis",
-        "project.ecommerce.desc": "Previous work example",
-        "project.xhs.title": "Xiaohongshu User Analysis",
-        "project.xhs.desc": "Personal project: use python and SPSS for data analysis",
-        "footer.rights": "All rights reserved.",
-        "footer.credit": "Designed by"
+        "filter.all": "All",
+        "filter.ai": "AI & Automation",
+        "filter.analysis": "Business Analysis",
+        "badge.ai": "AI & Automation",
+        "badge.analysis": "Business Analysis",
+
+        "demo.loading": "First load ~30s (cold start)",
+        "demo.open": "Open Full Demo",
+        "proj.demo.title": "Amazon Ranking Analysis",
+        "proj.demo.desc": "Data across 3 Amazon rank lists × 19 categories. Multi-dimensional scoring + actionable playbook recommendations.",
+
+        "scraper.schedule": "Daily auto-run",
+        "scraper.s1": "Read ASIN",
+        "scraper.s2": "Scrape Page",
+        "scraper.s3": "Write-back",
+        "scraper.s4": "AI Insight",
+        "scraper.outputs": "Delivered to Feishu",
+        "scraper.out.dash": "Dashboard",
+        "scraper.out.bot": "Feishu Notice",
+        "proj.scraper.title": "Amazon Product Auto-Sync",
+        "proj.scraper.desc": "Data collection · analysis · sync — closed-loop automation.",
+
+        "proj.consumption.title": "Consumption Industry Analysis 2024",
+        "proj.consumption.desc": "Bubble tea, coffee, snack shops, and prepared dishes — channel structure, brand competition, and Top-SKU dynamics.",
+        "proj.pb.title": "Power BI Dashboards",
+        "proj.pb.desc": "Sales / Inventory / HR storytelling dashboards built with Power BI.",
+        "proj.ecommerce.title": "E-commerce Industry Analysis",
+        "proj.ecommerce.desc": "Cross-category e-commerce report — channel mix, brand competition, and category dynamics. Published on WeChat.",
+
+        "footer.rights": "All rights reserved."
       },
       zh: {
         "nav.home": "首页",
         "nav.portfolio": "作品集",
         "hero.name": "Elita Zheng",
-        "hero.title": "商业分析师，效率提升者",
+        "hero.title": "AI 自动化实践者 · 效率提升者",
         "hero.cta": "查看我的作品",
         "hero.experience": "年行业经验",
-        "hero.projects": "参与项目",
-        "hero.reports": "完成报告",
-        "hero.image": "作品集主图",
+        "hero.ai_projects": "AI / 自动化项目",
+        "hero.speedup": "倍提速",
+        "hero.image": "Elita 头像",
+
+        "stack.llm": "AI Agent & LLM 调用",
+        "stack.pipe": "自动化流水线",
+        "stack.viz": "数据可视化",
+
         "section.portfolio": "作品集",
-        "filter.all": "全部作品",
-        "filter.report": "报告",
-        "filter.project": "项目",
-        "filter.viz": "数据可视化",
-        "filter.article": "文章",
-        "badge.report": "报告",
-        "badge.project": "项目",
-        "badge.viz": "数据可视化",
-        "badge.article": "文章",
-        "project.consumption.title": "消费行业分析",
-        "project.consumption.desc": "奶茶、咖啡、量贩零食店与预制菜行业分析",
-        "project.milk.title": "线上奶粉分析",
-        "project.milk.desc": "自我提升项目：利用python进行清洗数据处理，Excel分析销量走势及构建RFM模型", 
-        "project.sales.title": "数据看板",
-        "project.sales.desc": "由 PowerBI 制作的故事化展示",
-        "project.livestream.title": "跨境电商聚焦",
-        "project.livestream.desc": "过往工作成果示例",
-        "project.ecommerce.title": "电商行业分析",
-        "project.ecommerce.desc": "过往工作成果示例",
-        "project.xhs.title": "小红书用户分析",
-        "project.xhs.desc": "自我提升项目：利用python进行清洗数据处理，SPSS探究用户特征变量及构建利润线性回归模型",
-        "footer.rights": "版权所有。",
-        "footer.credit": "设计来源："
+        "filter.all": "全部",
+        "filter.ai": "AI & 自动化",
+        "filter.analysis": "商业分析",
+        "badge.ai": "AI & 自动化",
+        "badge.analysis": "商业分析",
+
+        "demo.loading": "首次加载约 30 秒（冷启动）",
+        "demo.open": "打开完整 Demo",
+        "proj.demo.title": "Amazon 榜单分析",
+        "proj.demo.desc": "Amazon 三榜单 × 19 个大类目数据，多维度评分 + 可执行打法建议。",
+
+        "scraper.schedule": "每日自动运行",
+        "scraper.s1": "读取 ASIN",
+        "scraper.s2": "抓取页面",
+        "scraper.s3": "回写表格",
+        "scraper.s4": "AI 提炼",
+        "scraper.outputs": "交付到飞书",
+        "scraper.out.dash": "数据看板",
+        "scraper.out.bot": "飞书通知",
+        "proj.scraper.title": "Amazon 商品自动同步",
+        "proj.scraper.desc": "数据采集—分析—同步自动化闭环。",
+
+        "proj.consumption.title": "消费行业分析 2024",
+        "proj.consumption.desc": "奶茶、咖啡、量贩零食、预制菜——渠道结构、品牌竞争、Top SKU 动态。",
+        "proj.pb.title": "Power BI 看板",
+        "proj.pb.desc": "销售 / 库存 / 人力 三大故事化看板，基于 Power BI 构建。",
+        "proj.ecommerce.title": "电商行业分析",
+        "proj.ecommerce.desc": "跨品类电商分析报告——渠道布局、品牌竞争、品类动态。公众号已发布。",
+
+        "footer.rights": "版权所有。"
       }
     };
   </script>
 
-  <!-- language switch function-->
+  <!-- i18n switcher -->
   <script>
     (function () {
       let currentLang = "en";
@@ -407,12 +492,11 @@
           const key = el.getAttribute("data-i18n");
           const attr = el.getAttribute("data-i18n-attr");
           const val = dict[key];
-          if (!val) return;
-
+          if (val === undefined) return;
           if (attr) {
             el.setAttribute(attr, val);
           } else {
-            el.textContent = val;
+            el.innerHTML = val;
           }
         });
 
@@ -424,7 +508,6 @@
 
       document.addEventListener("DOMContentLoaded", () => {
         applyI18n(currentLang);
-
         const toggleBtn = document.getElementById("lang-toggle");
         if (toggleBtn) {
           toggleBtn.addEventListener("click", () => {
@@ -435,17 +518,12 @@
       });
     })();
   </script>
-  
-  <!-- dashbords slides-->
+
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const lightbox = GLightbox({
-        selector: '.glightbox'
-      });
+      GLightbox({ selector: '.glightbox' });
     });
   </script>
 
-
 </body>
-
 </html>

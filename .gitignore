@@ -1,2 +1,3 @@
 sync-to-github.ps1
 run-sync.bat
+index-old-*.html
