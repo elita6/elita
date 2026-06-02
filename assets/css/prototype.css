@@ -181,18 +181,20 @@
   overflow: hidden;
 }
 
-.scraper-flow::before {
+/* Connector line lives on the TRACK (not the flow) so it sits at the icon-row
+   center regardless of icon size or how the flow distributes vertical space. */
+.scraper-track::before {
   content: '';
   position: absolute;
-  top: 56px;
-  left: 12%;
-  right: 12%;
+  top: 28px;            /* vertical center of the icon row */
+  left: 8.33%;          /* step 1 center → step 6 center */
+  right: 8.33%;
   height: 2px;
   background: linear-gradient(90deg,
     rgba(255,255,255,0.05) 0%,
     rgba(232, 117, 50, 0.35) 50%,
     rgba(255,255,255,0.05) 100%);
-  z-index: 1;
+  z-index: 0;
 }
 
 .scraper-track {
@@ -211,8 +213,8 @@
 }
 
 .scraper-step .step-icon-box {
-  width: 48px;
-  height: 48px;
+  width: 56px;
+  height: 56px;
   margin: 0 auto 10px;
   background: rgba(255,255,255,0.08);
   border: 2px solid rgba(255,255,255,0.18);
@@ -221,7 +223,7 @@
   align-items: center;
   justify-content: center;
   color: #fff;
-  font-size: 1.35rem;
+  font-size: 1.55rem;
   transition: all 0.4s ease;
   position: relative;
   z-index: 2;
@@ -241,11 +243,15 @@
   min-height: 0.9em;
 }
 
-/* Each step animates: scale up + glow when packet arrives */
-.scraper-step:nth-child(1) .step-icon-box { animation: step-glow 8s infinite; animation-delay: 0s; }
-.scraper-step:nth-child(2) .step-icon-box { animation: step-glow 8s infinite; animation-delay: 2s; }
-.scraper-step:nth-child(3) .step-icon-box { animation: step-glow 8s infinite; animation-delay: 4s; }
-.scraper-step:nth-child(4) .step-icon-box { animation: step-glow 8s infinite; animation-delay: 6s; }
+/* Each step glows exactly as the (linear) robot crosses it.
+   The glow's bright frame is ~1.76s into each step's 8s cycle, so the delays
+   are shifted negative to cancel that offset and line up with bot-walk. */
+.scraper-step:nth-child(1) .step-icon-box { animation: step-glow 8s infinite; animation-delay: -1.44s; }
+.scraper-step:nth-child(2) .step-icon-box { animation: step-glow 8s infinite; animation-delay: -0.06s; }
+.scraper-step:nth-child(3) .step-icon-box { animation: step-glow 8s infinite; animation-delay: 1.31s; }
+.scraper-step:nth-child(4) .step-icon-box { animation: step-glow 8s infinite; animation-delay: 2.69s; }
+.scraper-step:nth-child(5) .step-icon-box { animation: step-glow 8s infinite; animation-delay: 4.06s; }
+.scraper-step:nth-child(6) .step-icon-box { animation: step-glow 8s infinite; animation-delay: 5.44s; }
 
 @keyframes step-glow {
   0%, 18% {
@@ -268,11 +274,13 @@
   }
 }
 
-/* Sub-text typewriter feel — fades in/out per step */
-.scraper-step:nth-child(1) .step-sub { animation: sub-fade 8s infinite; animation-delay: 0s; }
-.scraper-step:nth-child(2) .step-sub { animation: sub-fade 8s infinite; animation-delay: 2s; }
-.scraper-step:nth-child(3) .step-sub { animation: sub-fade 8s infinite; animation-delay: 4s; }
-.scraper-step:nth-child(4) .step-sub { animation: sub-fade 8s infinite; animation-delay: 6s; }
+/* Sub-text typewriter feel — fades in/out per step (synced to the same cadence) */
+.scraper-step:nth-child(1) .step-sub { animation: sub-fade 8s infinite; animation-delay: -1.44s; }
+.scraper-step:nth-child(2) .step-sub { animation: sub-fade 8s infinite; animation-delay: -0.06s; }
+.scraper-step:nth-child(3) .step-sub { animation: sub-fade 8s infinite; animation-delay: 1.31s; }
+.scraper-step:nth-child(4) .step-sub { animation: sub-fade 8s infinite; animation-delay: 2.69s; }
+.scraper-step:nth-child(5) .step-sub { animation: sub-fade 8s infinite; animation-delay: 4.06s; }
+.scraper-step:nth-child(6) .step-sub { animation: sub-fade 8s infinite; animation-delay: 5.44s; }
 
 @keyframes sub-fade {
   0%, 18% { color: rgba(255,255,255,0.30); }
@@ -329,9 +337,8 @@
 @media (max-width: 576px) {
   .scraper-step .step-label { font-size: 0.68rem; }
   .scraper-step .step-sub { font-size: 0.58rem; }
-  .scraper-step .step-icon-box { width: 40px; height: 40px; font-size: 1.1rem; }
-  .scraper-flow::before { top: 50px; }
-  .scraper-dot { top: 41px; width: 12px; height: 12px; }
+  .scraper-step .step-icon-box { width: 46px; height: 46px; font-size: 1.25rem; }
+  .scraper-track::before { top: 23px; }
 }
 
 /* ----- Pseudo terminal log below the pipeline ----- */
@@ -494,6 +501,28 @@
 .portfolio-card.scraper-card .portfolio-image {
   aspect-ratio: auto;     /* override main.css 16/10 cap */
   overflow: hidden;
+  display: flex;          /* let the gray flow box flex-fill the image area */
+  flex-direction: column;
+}
+/* The gray flow box fills the image area via flex-grow (NOT height:100%, which
+   fails to resolve against a flex-grown parent → leaves white below the box).
+   Content stacks at the TOP (icons up near the dot); the footer is pinned to
+   the bottom (margin-top:auto), so any slack sits as gray breathing room in the
+   middle rather than crowding the top or leaving white below the box. */
+.portfolio-card.scraper-card .scraper-flow {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+/* Terminal log keeps a natural height (no flex-grow); its lines centered.
+   margin-top:auto drops the log + footer as a group toward the bottom, so the
+   slack opens up above the terminal and the terminal sits right on top of the
+   divider/chart (no gap between terminal and the chart below). */
+.portfolio-card.scraper-card .scraper-log {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 /* ----- Equalize row 2-3 portfolio cards (Scraper / PB / Consumption / E-commerce) ----- */
@@ -513,17 +542,12 @@
   .portfolio-item.col-lg-6 .portfolio-card .portfolio-content {
     flex: 0 0 auto;
   }
-  /* Scraper-flow stretches to match neighbor card's image height;
-     outputs section pushed to bottom so the extra space sits in the middle */
-  .portfolio-card.scraper-card .scraper-flow {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-  .portfolio-card.scraper-card .scraper-outputs-label {
-    margin-top: auto;
-  }
 }
+
+/* ----- 6-step track: tighten columns so they fit a half-width card ----- */
+.scraper-track-6 .scraper-step { padding: 0 2px; }
+.scraper-track-6 .scraper-step .step-label { font-size: 0.78rem; line-height: 1.2; }
+.scraper-track-6 .scraper-step .step-sub { font-size: 0.62rem; }
 
 /* ============================================================
  * LIGHT VARIANT for Scraper card (preview against dark theme)
@@ -551,8 +575,8 @@
 }
 
 /* Subtle dashed path along which the robot walks */
-.portfolio-card.scraper-card .scraper-flow::before {
-  top: 56px;
+.portfolio-card.scraper-card .scraper-track::before {
+  top: 28px;
   height: 2px;
   background: transparent;
   background-image: repeating-linear-gradient(90deg,
@@ -561,30 +585,33 @@
   opacity: 0.55;
 }
 
-/* Robot agent walks across the pipeline, signifying end-to-end completion */
+/* Robot agent walks across the pipeline, signifying end-to-end completion.
+   It lives INSIDE .scraper-track, so left% is measured against the track and
+   maps directly onto the 6 equal columns (centers at (i-0.5)/6). translateX(-50%)
+   centers the robot on each column → exact, width-independent sync with the glow. */
 .scraper-bot {
   position: absolute;
-  top: 38px;          /* sit just above the icon row */
-  left: 8%;
-  font-size: 1.5rem;
+  top: -34px;          /* raised so its top sits level with the green dot center */
+  left: 8.33%;         /* column 1 center */
+  font-size: 1.4rem;
   color: #e87532;
-  z-index: 4;
+  z-index: 5;
   filter: drop-shadow(0 2px 4px rgba(232, 117, 50, 0.45));
   animation:
-    bot-walk 8s ease-in-out infinite,
+    bot-walk 8s linear infinite,
     bot-bounce 0.5s ease-in-out infinite;
 }
 
 @keyframes bot-walk {
-  0%   { left: 8%;  opacity: 0; }
-  5%   { opacity: 1; }
-  90%  { left: 88%; opacity: 1; }
-  95%, 100% { left: 88%; opacity: 0; }
+  0%        { left: 8.33%;  opacity: 0; }
+  4%        { left: 8.33%;  opacity: 1; }   /* appear over step 1 */
+  90%       { left: 91.67%; opacity: 1; }   /* arrive at step 6 center */
+  95%, 100% { left: 91.67%; opacity: 0; }
 }
 
 @keyframes bot-bounce {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-3px); }
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(-3px); }
 }
 
 .portfolio-card.scraper-card .scraper-step .step-icon-box {
@@ -601,14 +628,18 @@
 .portfolio-card.scraper-card .scraper-step:nth-child(1) .step-icon-box,
 .portfolio-card.scraper-card .scraper-step:nth-child(2) .step-icon-box,
 .portfolio-card.scraper-card .scraper-step:nth-child(3) .step-icon-box,
-.portfolio-card.scraper-card .scraper-step:nth-child(4) .step-icon-box {
+.portfolio-card.scraper-card .scraper-step:nth-child(4) .step-icon-box,
+.portfolio-card.scraper-card .scraper-step:nth-child(5) .step-icon-box,
+.portfolio-card.scraper-card .scraper-step:nth-child(6) .step-icon-box {
   animation-name: step-glow-light;
 }
 
 .portfolio-card.scraper-card .scraper-step:nth-child(1) .step-sub,
 .portfolio-card.scraper-card .scraper-step:nth-child(2) .step-sub,
 .portfolio-card.scraper-card .scraper-step:nth-child(3) .step-sub,
-.portfolio-card.scraper-card .scraper-step:nth-child(4) .step-sub {
+.portfolio-card.scraper-card .scraper-step:nth-child(4) .step-sub,
+.portfolio-card.scraper-card .scraper-step:nth-child(5) .step-sub,
+.portfolio-card.scraper-card .scraper-step:nth-child(6) .step-sub {
   animation-name: sub-fade-light;
 }
 
@@ -644,10 +675,7 @@
   background: transparent;
   border: none;
   padding: 0;
-  color: #e87532;
-  font-weight: 700;
-  font-size: 0.78rem;
-  margin-bottom: 36px;     /* extra room so the walking robot has its own lane */
+  margin-bottom: 22px;     /* tightened (text removed) so the icons sit higher */
 }
 
 /* Outputs divider — light variant */
@@ -662,3 +690,238 @@
 
 /* Output buttons stay white-bg + orange (unchanged) */
 /* Terminal log stays dark gradient (unchanged) */
+
+/* ===========================================================
+ * Clickable flow steps (Feishu Notice / Dashboard) + tap hint
+ * =========================================================== */
+.scraper-step-tap {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+/* No persistent ring — steps 5/6 rest & glow identically to 1-4 so the robot
+   stays in sync visually; the "点击" pill is what marks them interactive. */
+/* Hover: button turns solid orange with a white icon (animation paused so it wins) */
+.portfolio-card.scraper-card .scraper-step-tap:hover .step-icon-box {
+  animation: none;
+  background: #e87532;
+  border-color: #e87532;
+  color: #fff;
+  transform: translateY(-3px) scale(1.06);
+  box-shadow: 0 8px 18px rgba(232, 117, 50, 0.45);
+}
+.scraper-step-tap:hover .step-label { color: #e87532; }
+
+/* "点击查看" CTA chip under the two clickable icons — a clear orange button
+   (magnifier + label) so it reads as "click to view more", distinct from the
+   icon's own glow. It "pops" once per 8s exactly when the robot arrives + the
+   icon glows (per-step delay = that step's glow delay), so it's synced, never
+   drifting, yet obviously interactive. */
+.step-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-top: 5px;
+  padding: 2px 8px;
+  background: #e87532;
+  color: #fff;
+  font-size: 0.64rem;
+  font-weight: 700;
+  line-height: 1.3;
+  white-space: nowrap;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(232, 117, 50, 0.45);
+}
+.step-cta .bi { font-size: 0.72rem; }
+.scraper-step:nth-child(5) .step-cta { animation: cta-pop 8s ease-in-out infinite; animation-delay: 4.06s; }
+.scraper-step:nth-child(6) .step-cta { animation: cta-pop 8s ease-in-out infinite; animation-delay: 5.44s; }
+@keyframes cta-pop {
+  0%, 14%   { transform: scale(1);    box-shadow: 0 2px 6px rgba(232, 117, 50, 0.45); }
+  22%       { transform: scale(1.28); box-shadow: 0 5px 14px rgba(232, 117, 50, 0.7); }
+  34%, 100% { transform: scale(1);    box-shadow: 0 2px 6px rgba(232, 117, 50, 0.45); }
+}
+/* hover the step → the chip brightens slightly */
+.scraper-step-tap:hover .step-cta { background: #d8641f; }
+
+/* ----- Footer row: animated mini-chart (left) + More button (bottom-right).
+   Top border is the "横线" divider (text removed, line kept). ----- */
+.scraper-footer-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;       /* together with the log's auto margin, this centers the
+                             terminal between the icons and the bottom chart */
+  border-top: 1px solid rgba(15, 41, 67, 0.12);
+  padding-top: 14px;
+}
+
+/* Width = right edge reaches the vertical centerline of the "AI Insight" cell
+   (step 4 of 6 → its center sits at 3.5/6 ≈ 58.3% of the track width) */
+.mini-chart { flex: 0 0 58.3%; width: 58.3%; }
+.mini-chart-svg { display: block; width: 100%; height: 88px; overflow: visible; }
+
+.mc-bar {
+  fill: #cdd9e5;
+  transform-box: fill-box;
+  transform-origin: bottom;
+  animation: mc-bar-rise 3.2s ease-in-out infinite;
+}
+.mc-bar-accent { fill: #e87532; }
+.mini-chart-svg .mc-bar:nth-child(1) { animation-delay: 0s; }
+.mini-chart-svg .mc-bar:nth-child(2) { animation-delay: 0.25s; }
+.mini-chart-svg .mc-bar:nth-child(3) { animation-delay: 0.5s; }
+.mini-chart-svg .mc-bar:nth-child(4) { animation-delay: 0.75s; }
+.mini-chart-svg .mc-bar:nth-child(5) { animation-delay: 1s; }
+
+@keyframes mc-bar-rise {
+  0%   { transform: scaleY(0.18); }
+  45%  { transform: scaleY(1); }
+  75%  { transform: scaleY(1); }
+  100% { transform: scaleY(0.18); }
+}
+
+.mc-line {
+  fill: none;
+  stroke: #0f2943;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 170;
+  stroke-dashoffset: 170;
+  animation: mc-line-draw 3.2s ease-in-out infinite;
+}
+@keyframes mc-line-draw {
+  0%   { stroke-dashoffset: 170; }
+  40%  { stroke-dashoffset: 0; }
+  80%  { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -170; }
+}
+
+/* "More Dashboards" button — reuses .scraper-output look, sits bottom-right */
+.scraper-more { align-self: flex-end; }
+
+@media (max-width: 576px) {
+  .scraper-footer-row { flex-direction: column; align-items: stretch; }
+  .mini-chart { width: 100%; }
+  .scraper-more { align-self: stretch; }
+}
+
+/* ===========================================================
+ * Scoring card: "Amazon Category Scoring System"
+ * Recreates the demo's 6-page architecture grid; the demo's
+ * green circular arrows are recolored to the orange theme and
+ * made clickable (each opens that page's screenshot gallery).
+ * =========================================================== */
+.portfolio .portfolio-card.scoring-card {
+  background-color: #ffffff;
+  border: 1px solid rgba(15, 41, 67, 0.08);
+  box-shadow: 0 5px 25px rgba(15, 41, 67, 0.08);
+}
+.portfolio .portfolio-card.scoring-card:hover {
+  box-shadow: 0 12px 40px rgba(15, 41, 67, 0.14);
+}
+.portfolio-card.scoring-card .portfolio-image {
+  aspect-ratio: auto;
+  overflow: hidden;
+}
+.portfolio-card.scoring-card .portfolio-content h3 { color: #0f2943; }
+.portfolio-card.scoring-card .portfolio-content h3:hover { color: var(--accent-color); }
+.portfolio-card.scoring-card .portfolio-content p { color: #495057; }
+
+.scoring-arch {
+  height: 100%;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: linear-gradient(135deg, #f8f9fa 0%, #eef2f6 100%);
+}
+.scoring-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.scoring-cell {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid rgba(15, 41, 67, 0.08);
+  border-radius: 10px;
+  padding: 12px 13px 40px;
+  min-height: 104px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(15, 41, 67, 0.04);
+  transition: box-shadow 0.28s ease, transform 0.28s ease, border-color 0.28s ease;
+}
+/* Accent bar that sweeps across the top on hover */
+.scoring-cell::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #e87532, #f5a572);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s ease;
+}
+.scoring-cell:hover {
+  border-color: rgba(232, 117, 50, 0.5);
+  box-shadow: 0 10px 26px rgba(232, 117, 50, 0.18);
+  transform: translateY(-4px);
+}
+.scoring-cell:hover::before { transform: scaleX(1); }
+
+.cell-head { display: flex; align-items: center; gap: 8px; }
+/* Page title now sits in the head, next to the icon (Page-N label removed) */
+.cell-head .cell-title { margin-top: 0; font-size: 0.9rem; line-height: 1.25; }
+/* Icon tile (orange tint) — mirrors the scraper card's icon language */
+.cell-icon {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: rgba(232, 117, 50, 0.12);
+  color: #e87532;
+  font-size: 0.95rem;
+  transition: background 0.28s ease, color 0.28s ease, transform 0.28s ease;
+}
+.scoring-cell:hover .cell-icon {
+  background: #e87532;
+  color: #fff;
+  transform: scale(1.08) rotate(-4deg);
+}
+.cell-title { font-size: 0.9rem; font-weight: 700; color: #1a2940; }
+.cell-desc { font-size: 0.68rem; color: #6b7280; line-height: 1.45; margin-top: 6px; }
+
+/* Circular arrow — white bg + orange arrow & ring; fills orange on hover */
+.cell-arrow {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #e87532;
+  border: 1.5px solid #e87532;
+  text-decoration: none;
+  box-shadow: 0 1px 4px rgba(232, 117, 50, 0.2);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, color 0.25s ease;
+}
+.cell-arrow .bi { font-size: 0.95rem; }
+.cell-arrow:hover {
+  background: #e87532;
+  color: #ffffff;
+  transform: scale(1.12);
+  box-shadow: 0 6px 16px rgba(232, 117, 50, 0.5);
+}
+
+@media (max-width: 575px) {
+  .scoring-grid { grid-template-columns: 1fr; }
+}
