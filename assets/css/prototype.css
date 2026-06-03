@@ -857,6 +857,15 @@
   justify-content: center;
   background: linear-gradient(135deg, #f8f9fa 0%, #eef2f6 100%);
 }
+/* Small reassurance note under the live-demo button (cloud wake-up notice) */
+.demo-note {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: #9aa3af;
+}
+
 /* Header banner — tells visitors the 6 cells are a data product (dashboard) */
 .scoring-header {
   margin-bottom: 14px;

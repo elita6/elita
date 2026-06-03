@@ -250,9 +250,10 @@
                   <span class="category" data-i18n="badge.ai">AI & Automation</span>
                   <h3 data-i18n="proj.scoring.title">Amazon Category Scoring System</h3>
                   <p data-i18n="proj.scoring.desc">A six-page interactive dashboard scoring Amazon categories across five dimensions with dual-layer weighting.</p>
-                  <a href="https://amazon-rank-demo-elita.streamlit.app/" target="_blank" rel="noopener" class="btn btn-primary mt-2" style="width:fit-content;">
+                  <a id="live-demo-link" href="https://amazon-rank-demo-elita.streamlit.app/" target="_blank" rel="noopener" class="btn btn-primary mt-2" style="width:fit-content;">
                     <i class="bi bi-box-arrow-up-right me-1"></i><span data-i18n="demo.online">View Live System Demo</span>
                   </a>
+                  <small class="demo-note" data-i18n="demo.note">Cloud-hosted demo — if it has gone to sleep, the first open may take ~30s to wake up (not a bug).</small>
                 </div>
               </div>
             </div>
@@ -443,6 +444,7 @@
         "badge.analysis": "Business Analysis",
 
         "demo.online": "View Live System Demo",
+        "demo.note": "Cloud-hosted demo — if it has gone to sleep, the first open may take ~30s to wake up (not a bug).",
 
         "scoring.tag": "Data Product",
         "scoring.p1.t": "Category Detail",
@@ -501,6 +503,7 @@
         "badge.analysis": "商业分析",
 
         "demo.online": "查看在线系统 Demo",
+        "demo.note": "云端托管 Demo，若已休眠，首次打开约需 30 秒唤醒（非故障）。",
 
         "scoring.tag": "数据产品",
         "scoring.p1.t": "类目详情",
@@ -586,6 +589,21 @@
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       GLightbox({ selector: '.glightbox' });
+
+      // Pre-warm the Streamlit demo: on hover/touch/click, fire a background
+      // request so Cloud starts waking the app before the new tab finishes loading.
+      var demoLink = document.getElementById("live-demo-link");
+      if (demoLink) {
+        var warmed = false;
+        var warm = function () {
+          if (warmed) return;
+          warmed = true;
+          try { fetch(demoLink.href, { mode: "no-cors", cache: "no-store" }); } catch (e) {}
+        };
+        demoLink.addEventListener("pointerenter", warm);
+        demoLink.addEventListener("touchstart", warm, { passive: true });
+        demoLink.addEventListener("click", warm);
+      }
     });
   </script>
 
