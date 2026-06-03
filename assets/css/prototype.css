@@ -335,10 +335,30 @@
 }
 
 @media (max-width: 576px) {
-  .scraper-step .step-label { font-size: 0.68rem; }
-  .scraper-step .step-sub { font-size: 0.58rem; }
-  .scraper-step .step-icon-box { width: 46px; height: 46px; font-size: 1.25rem; }
-  .scraper-track::before { top: 23px; }
+  /* Phone: spread the 6 steps edge-to-edge so the first/last hug the sides and
+     the gaps are even (not bunched in the middle), each label on one line. */
+  .portfolio-card.scraper-card .scraper-flow { padding-left: 4px; padding-right: 4px; }
+  .scraper-track-6 .scraper-step { flex: 0 0 13%; padding: 0; }   /* narrow steps + space-between → wide even spread */
+  .scraper-step .step-icon-box { width: 36px; height: 36px; font-size: 1rem; }
+  /* connector line + robot span the new icon-center range (≈6.5%–93.5%) */
+  .scraper-track::before { top: 18px; left: 6.5%; right: 6.5%; }
+  .scraper-bot { top: -30px; animation-name: bot-walk-mobile, bot-bounce; }
+  .scraper-track-6 .scraper-step .step-label {
+    font-size: 0.54rem;
+    white-space: nowrap;       /* keep 读取ASIN / 抓取页面 / 回写表格 on one line */
+    letter-spacing: -0.2px;
+  }
+  .scraper-track-6 .scraper-step .step-sub { display: none; }   /* declutter on phone */
+  .step-cta { font-size: 0.5rem; padding: 1px 4px; }
+  .step-cta .bi { font-size: 0.56rem; }
+}
+/* Robot path for phones — wider endpoints matching the spread icon centers.
+   Even spacing means the per-step glow delays stay valid (crossing times unchanged). */
+@keyframes bot-walk-mobile {
+  0%        { left: 6.5%;  opacity: 0; }
+  4%        { left: 6.5%;  opacity: 1; }
+  90%       { left: 93.5%; opacity: 1; }
+  95%, 100% { left: 93.5%; opacity: 0; }
 }
 
 /* ----- Pseudo terminal log below the pipeline ----- */
@@ -837,6 +857,25 @@
   justify-content: center;
   background: linear-gradient(135deg, #f8f9fa 0%, #eef2f6 100%);
 }
+/* Header banner — tells visitors the 6 cells are a data product (dashboard) */
+.scoring-header {
+  margin-bottom: 14px;
+}
+.scoring-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #e87532;
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 6px 16px;
+  border-radius: 14px;
+  box-shadow: 0 3px 10px rgba(232, 117, 50, 0.4);
+}
+.scoring-tag .bi { font-size: 1.05rem; }
+
 .scoring-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
